@@ -1,0 +1,164 @@
+                    
+                    
+┌──────────────────┐
+│ 13 Code Findings │
+└──────────────────┘
+                         
+  [36m[22m[24m  app.py[0m
+    ❯❱ [1mpython.lang.security.audit.md5-used-as-password.md5-used-as-password[0m
+          [31m[1m[24m❰❰ Blocking ❱❱[0m
+          It looks like MD5 is used as a password hash. MD5 is not considered a secure password
+          hash because it can be cracked by an attacker in a short amount of time. Use a       
+          suitable password hashing function such as scrypt. You can use `hashlib.scrypt`.     
+          Details: https://sg.run/5DwD                                                         
+                                                                                               
+           39┆ weak_password_hash = hashlib.md5(password.encode('utf-8')).hexdigest()
+   
+   ❯❯❱ [1mpython.django.security.injection.tainted-sql-string.tainted-sql-string[0m
+          [31m[1m[24m❰❰ Blocking ❱❱[0m
+          Detected user input used to manually construct a SQL string. This is usually bad     
+          practice because manual construction could accidentally result in a SQL injection. An
+          attacker could use a SQL injection to steal or modify contents of the database.      
+          Instead, use a parameterized query which is available by default in most database    
+          engines. Alternatively, consider using the Django object-relational mappers (ORM)    
+          instead of raw SQL queries.                                                          
+          Details: https://sg.run/PbZp                                                         
+                                                                                               
+           72┆ raw_sql = f"SELECT * FROM task WHERE title LIKE '%{search_query}%'"
+   
+   ❯❯❱ [1mpython.flask.security.injection.tainted-sql-string.tainted-sql-string[0m
+          [31m[1m[24m❰❰ Blocking ❱❱[0m
+          Detected user input used to manually construct a SQL string. This is usually bad     
+          practice because manual construction could accidentally result in a SQL injection. An
+          attacker could use a SQL injection to steal or modify contents of the database.      
+          Instead, use a parameterized query which is available by default in most database    
+          engines. Alternatively, consider using an object-relational mapper (ORM) such as     
+          SQLAlchemy which will protect your queries.                                          
+          Details: https://sg.run/JxZj                                                         
+                                                                                               
+           72┆ raw_sql = f"SELECT * FROM task WHERE title LIKE '%{search_query}%'"
+   
+   ❯❯❱ [1mpython.sqlalchemy.security.audit.avoid-sqlalchemy-text.avoid-sqlalchemy-text[0m
+          [31m[1m[24m❰❰ Blocking ❱❱[0m
+          sqlalchemy.text passes the constructed SQL statement to the database mostly unchanged.
+          This means that the usual SQL injection protections are not applied and this function 
+          is vulnerable to SQL injection if user input can reach here. Use normal SQLAlchemy    
+          operators (such as `or_()`, `and_()`, etc.) to construct SQL.                         
+          Details: https://sg.run/yP1O                                                          
+                                                                                                
+           73┆ result = db.session.execute(text(raw_sql))
+   
+    ❯❱ [1mpython.flask.security.audit.directly-returned-format-string.directly-returned-format-string[0m
+          [31m[1m[24m❰❰ Blocking ❱❱[0m
+          Detected Flask route directly returning a formatted string. This is subject to cross-
+          site scripting if user input can reach the string. Consider using the template engine
+          instead and rendering pages with 'render_template()'.                                
+          Details: https://sg.run/Zv6o                                                         
+                                                                                               
+          181┆ return f"<pre>{content}</pre>"
+   
+    ❯❱ [1mpython.django.security.injection.raw-html-format.raw-html-format[0m
+          [31m[1m[24m❰❰ Blocking ❱❱[0m
+          Detected user input flowing into a manually constructed HTML string. You may be      
+          accidentally bypassing secure methods of rendering HTML by manually constructing HTML
+          and this could create a cross-site scripting vulnerability, which could let attackers
+          steal sensitive user data. To be sure this is safe, check that the HTML is rendered  
+          safely. Otherwise, use templates (`django.shortcuts.render`) which will safely render
+          HTML instead.                                                                        
+          Details: https://sg.run/oYj1                                                         
+                                                                                               
+          181┆ return f"<pre>{content}</pre>"
+   
+    ❯❱ [1mpython.flask.security.injection.raw-html-concat.raw-html-format[0m
+          [31m[1m[24m❰❰ Blocking ❱❱[0m
+          Detected user input flowing into a manually constructed HTML string. You may be      
+          accidentally bypassing secure methods of rendering HTML by manually constructing HTML
+          and this could create a cross-site scripting vulnerability, which could let attackers
+          steal sensitive user data. To be sure this is safe, check that the HTML is rendered  
+          safely. Otherwise, use templates (`flask.render_template`) which will safely render  
+          HTML instead.                                                                        
+          Details: https://sg.run/Pb7e                                                         
+                                                                                               
+          181┆ return f"<pre>{content}</pre>"
+   
+    ❯❱ [1mpython.flask.security.audit.debug-enabled.debug-enabled[0m
+          [31m[1m[24m❰❰ Blocking ❱❱[0m
+          Detected Flask app with debug=True. Do not deploy to production with this flag enabled
+          as it will leak sensitive information. Instead, consider using Flask configuration    
+          variables or setting 'debug' using system environment variables.                      
+          Details: https://sg.run/dKrd                                                          
+                                                                                                
+          187┆ app.run(debug=True)
+                                           
+  [36m[22m[24m  templates\dashboard.html[0m
+    ❯❱ [1mhtml.security.audit.missing-integrity.missing-integrity[0m
+          [31m[1m[24m❰❰ Blocking ❱❱[0m
+          This tag is missing an 'integrity' subresource integrity attribute. The 'integrity'   
+          attribute allows for the browser to verify that externally hosted files (for example  
+          from a CDN) are delivered without unexpected manipulation. Without this attribute, if 
+          an attacker can modify the externally hosted resource, this could lead to XSS and     
+          other types of attacks. To prevent this, include the base64-encoded cryptographic hash
+          of the resource (file) you’re telling the browser to fetch in the 'integrity'         
+          attribute for all externally hosted files.                                            
+          Details: https://sg.run/krXA                                                          
+                                                                                                
+            6┆ <link                                                                        
+               href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css
+               " rel="stylesheet">                                                          
+   
+    ❯❱ [1mpython.django.security.django-no-csrf-token.django-no-csrf-token[0m
+          [31m[1m[24m❰❰ Blocking ❱❱[0m
+          Manually-created forms in django templates should specify a csrf_token to prevent CSRF
+          attacks.                                                                              
+          Details: https://sg.run/N0Bp                                                          
+                                                                                                
+           42┆ <form method="POST" action="/task/create">
+           43┆     <div class="mb-2">
+           44┆         <input type="text" name="title" class="form-control"
+               placeholder="Task Title" required>                          
+           45┆     </div>
+           46┆     <div class="mb-2">
+           47┆         <textarea name="description" class="form-control" placeholder="Task
+               Description"></textarea>                                                   
+           48┆     </div>
+           49┆     <div class="mb-3">
+           50┆         <select name="category_id" class="form-select">
+           51┆             <option value="">Select Category (Optional)</option>
+             [hid 7 additional lines, adjust with --max-lines-per-finding] 
+           75┆ <form action="/task/delete/{{ task.id }}" method="POST" class="m-0">
+           76┆     <button type="submit" class="btn btn-sm btn-outline-
+               danger">Delete</button>                                 
+           77┆ </form>
+                                         
+  [36m[22m[24m  templates\profile.html[0m
+    ❯❱ [1mhtml.security.audit.missing-integrity.missing-integrity[0m
+          [31m[1m[24m❰❰ Blocking ❱❱[0m
+          This tag is missing an 'integrity' subresource integrity attribute. The 'integrity'   
+          attribute allows for the browser to verify that externally hosted files (for example  
+          from a CDN) are delivered without unexpected manipulation. Without this attribute, if 
+          an attacker can modify the externally hosted resource, this could lead to XSS and     
+          other types of attacks. To prevent this, include the base64-encoded cryptographic hash
+          of the resource (file) you’re telling the browser to fetch in the 'integrity'         
+          attribute for all externally hosted files.                                            
+          Details: https://sg.run/krXA                                                          
+                                                                                                
+            6┆ <link                                                                        
+               href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css
+               " rel="stylesheet">                                                          
+   
+    ❯❱ [1mpython.django.security.django-no-csrf-token.django-no-csrf-token[0m
+          [31m[1m[24m❰❰ Blocking ❱❱[0m
+          Manually-created forms in django templates should specify a csrf_token to prevent CSRF
+          attacks.                                                                              
+          Details: https://sg.run/N0Bp                                                          
+                                                                                                
+           11┆ <form method="POST" action="/profile">
+           12┆     <div class="mb-3">
+           13┆         <label class="form-label">Username</label>
+           14┆         <input type="text" name="username" class="form-control" value="{{
+               user.username }}" required>                                              
+           15┆     </div>
+           16┆     <button type="submit" class="btn btn-primary">Update Profile</button>
+           17┆     <a href="/dashboard" class="btn btn-outline-secondary ms-2">Back to
+               Dashboard</a>                                                          
+           18┆ </form>

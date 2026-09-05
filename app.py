@@ -12,7 +12,7 @@ app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///securetask.db'
 
 # VULNERABILITY: Hardcoded Secrets (For Gitleaks / Semgrep)
-AWS_SECRET_KEY = "AKIAIOSFODNN7EXAMPLE_SECRET_KEY_EXPOSED"
+AWS_SECRET_KEY = "AKIAIOSFODNN7ABCD1234567890SECKEY"
 JWT_SECRET_KEY = "hardcoded_super_insecure_secret_12345"
 app.config['JWT_SECRET_KEY'] = JWT_SECRET_KEY
 
