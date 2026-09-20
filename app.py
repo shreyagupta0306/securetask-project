@@ -22,6 +22,9 @@ os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
 db.init_app(app)
 jwt = JWTManager(app)
+@app.route('/')
+def home():
+    return redirect(url_for('dashboard'))
 # Route: User Registration
 @app.route('/register', methods=['POST'])
 def register():
