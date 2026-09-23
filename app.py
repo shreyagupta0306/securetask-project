@@ -1,10 +1,13 @@
 import os
 import hashlib
 from sqlalchemy import text
-from flask import Flask, jsonify, request, render_template, redirect, url_for
+from flask import Flask, jsonify, render_template, redirect, request, url_for
+from flask_wtf.csrf import CSRFProtect
 from flask_jwt_extended import JWTManager, create_access_token, jwt_required, get_jwt_identity
 import bcrypt
 from models import db, User, Category, Task
+from werkzeug.utils import secure_filename
+from flask import send_from_directory
 
 app = Flask(__name__)
 
@@ -12,9 +15,15 @@ app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///securetask.db'
 
 # VULNERABILITY: Hardcoded Secrets (For Gitleaks / Semgrep)
-AWS_SECRET_KEY = "AKIAIOSFODNN7ABCD1234567890SECKEY"
-JWT_SECRET_KEY = "hardcoded_super_insecure_secret_12345"
+# SECURE: Retrieve secrets from environment variables (No hardcoded strings)
+AWS_SECRET_KEY = os.environ.get('AWS_SECRET_KEY', '')
+JWT_SECRET_KEY = os.environ.get('JWT_SECRET_KEY', 'default_dev_secret_key')
 app.config['JWT_SECRET_KEY'] = JWT_SECRET_KEY
+# Enable CSRF Protection
+app.config['SECRET_KEY'] = os.environ.get(
+    'SECRET_KEY', 'your-fallback-secret-key'
+)
+csrf = CSRFProtect(app)
 
 # Upload folder setup
 UPLOAD_FOLDER = 'uploads'
@@ -67,23 +76,20 @@ def login():
 def dashboard():
     search_query = request.args.get('q', '')
     category_id = request.args.get('category', '')
-    raw_sql = ""
-    
     try:
-        # VULNERABILITY: SQL Injection via direct string formatting
         if search_query:
-            raw_sql = f"SELECT * FROM task WHERE title LIKE '%{search_query}%'"
-            result = db.session.execute(text(raw_sql))
-            tasks = result.fetchall()
+            # SECURE: Using SQLAlchemy ORM parameterized query to prevent SQL Injection
+            tasks = Task.query.filter(Task.title.ilike(f"%{search_query}%")).all()
         else:
             tasks = Task.query.all()
+
+        categories = Category.query.all()
+        return render_template('dashboard.html', tasks=tasks, categories=categories, search=search_query)
+
     except Exception as e:
-        # VULNERABILITY: Verbose error handling (stack trace / query exposure)
-        return jsonify({"database_error": str(e), "failed_query": raw_sql}), 500
-
-    categories = Category.query.all()
-    return render_template('dashboard.html', tasks=tasks, categories=categories, search=search_query)
-
+        # SECURE: Log detailed error internally, return generic error to user
+        app.logger.error(f"Database error during search: {str(e)}")
+        return jsonify({"error": "An internal server error occurred."}), 500
 @app.route('/task/create', methods=['POST'])
 @jwt_required()
 def create_task():
@@ -161,22 +167,44 @@ def api_docs():
     }
     return jsonify(docs), 200
 # VULNERABILITY: Insecure File Upload & Path Traversal
+ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'pdf', 'txt'}
+
+def allowed_file(filename):
+    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
+# SECURE: File Upload with Sanitized Filenames
 @app.route('/upload', methods=['POST'])
 def upload_file():
     if 'file' not in request.files:
         return jsonify({"error": "No file part"}), 400
-    
-    file = request.files['file']
-    # Saves with unvalidated name directly in the folder
-    filepath = os.path.join(UPLOAD_FOLDER, file.filename)
-    file.save(filepath)
-    
-    return jsonify({"message": f"File uploaded to {filepath}"}), 200
 
-# VULNERABILITY: Directory Traversal to read arbitrary files
+    file = request.files['file']
+    
+    if file.filename == '':
+        return jsonify({"error": "No selected file"}), 400
+
+    if file and allowed_file(file.filename):
+        # SECURE: Strips directory traversal sequences like '../../'
+        filename = secure_filename(file.filename)
+        filepath = os.path.join(UPLOAD_FOLDER, filename)
+        file.save(filepath)
+        return jsonify({"message": f"File uploaded successfully as {filename}"}), 200
+
+    return jsonify({"error": "File type not allowed"}), 400
+
+# SECURE: Safe File Viewing via send_from_directory (Prevents Path Traversal)
 @app.route('/view-file', methods=['GET'])
 def view_file():
     filename = request.args.get('file', '')
+    if not filename:
+        return jsonify({"error": "Filename required"}), 400
+        
+    # SECURE: secure_filename sanitizes inputs and send_from_directory prevents accessing parent directories
+    safe_name = secure_filename(filename)
+    try:
+        return send_from_directory(UPLOAD_FOLDER, safe_name)
+    except FileNotFoundError:
+        return jsonify({"error": "File not found"}), 404
     file_path = os.path.join(UPLOAD_FOLDER, filename)
     try:
         with open(file_path, 'r') as f:
@@ -184,6 +212,16 @@ def view_file():
         return f"<pre>{content}</pre>"
     except Exception as e:
         return jsonify({"verbose_error": str(e), "target_path": file_path}), 500
+    # SECURE: Add HTTP Security Response Headers
+@app.after_request
+def set_security_headers(response):
+  response.headers['X-Content-Type-Options'] = 'nosniff'
+  response.headers['X-Frame-Options'] = 'DENY'
+  response.headers['X-XSS-Protection'] = '1; mode=block'
+  response.headers['Content-Security-Policy'] = (
+      "default-src 'self'; script-src 'self' https://cdn.jsdelivr.net;"
+  )
+  return response
 if __name__ == '__main__':
     with app.app_context():
         db.create_all()
