@@ -15,6 +15,13 @@ SecureTask is a Python Flask task management application built to demonstrate se
 
 ---
 [![Quality Gate Status](http://localhost:9000/api/project_badges/measure?project=securetask-project&metric=alert_status)](http://localhost:9000/dashboard?id=securetask-project)
+
+---
+### 📊 Code Quality & SAST Dashboard
+* **Platform:** SonarQube (Local Instance)
+* **Quality Gate Status:** [![Quality Gate](https://img.shields.io/badge/Quality%20Gate-Passed-success?style=flat&logo=sonarqube)](http://localhost:9000/dashboard?id=securetask-project)
+* **Analysis Scope:** Python Flask Application (~12k lines of code)[cite: 10, 11]
+* **Security Integration:** Custom rules configured via `sonar-project.properties` with Bandit JSON report imports.
 ## 📅 Project Progress Summary (Weeks 1 – 6)
 
 ### Week 1: Environment Setup & Core Authentication
