@@ -1,0 +1,42 @@
+[
+ {
+  "RuleID": "generic-api-key",
+  "Description": "Detected a Generic API Key, potentially exposing access to various services and sensitive operations.",
+  "StartLine": 13,
+  "EndLine": 13,
+  "StartColumn": 53,
+  "EndColumn": 104,
+  "Match": "AWS_SECRET_KEY = \"AKIAIOSFODNN7ABCD1234567890SECKEY\"",
+  "Secret": "AKIAIOSFODNN7ABCD1234567890SECKEY",
+  "File": "reports/SAST_FINDINGS.md",
+  "SymlinkFile": "",
+  "Commit": "",
+  "Entropy": 4.354852,
+  "Author": "",
+  "Email": "",
+  "Date": "",
+  "Message": "",
+  "Tags": [],
+  "Fingerprint": "reports/SAST_FINDINGS.md:generic-api-key:13"
+ },
+ {
+  "RuleID": "generic-api-key",
+  "Description": "Detected a Generic API Key, potentially exposing access to various services and sensitive operations.",
+  "StartLine": 10,
+  "EndLine": 10,
+  "StartColumn": 5,
+  "EndColumn": 48,
+  "Match": "Secret\": \"AKIAIOSFODNN7ABCD1234567890SECKEY\"",
+  "Secret": "AKIAIOSFODNN7ABCD1234567890SECKEY",
+  "File": "reports/gitleaks-report.json",
+  "SymlinkFile": "",
+  "Commit": "",
+  "Entropy": 4.354852,
+  "Author": "",
+  "Email": "",
+  "Date": "",
+  "Message": "",
+  "Tags": [],
+  "Fingerprint": "reports/gitleaks-report.json:generic-api-key:10"
+ }
+]

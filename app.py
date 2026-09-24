@@ -8,8 +8,15 @@ import bcrypt
 from models import db, User, Category, Task
 from werkzeug.utils import secure_filename
 from flask import send_from_directory
+from flask_wtf import FlaskForm
 
 app = Flask(__name__)
+app = Flask(__name__)
+
+# Cookie Security Configurations
+app.config['SESSION_COOKIE_SAMESITE'] = 'Lax'
+app.config['SESSION_COOKIE_SECURE'] = False  # Set to True only in HTTPS production
+app.config['SESSION_COOKIE_HTTPONLY'] = True
 
 # Configurations
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///securetask.db'
@@ -73,23 +80,29 @@ def login():
 # Week 2 Routes: Dashboard, Task CRUD, Profile & API Docs
 @app.route('/dashboard', methods=['GET'])
 # VULNERABILITY: Authentication Bypass (JWT guard intentionally removed)
+@app.route('/dashboard', methods=['GET'])
 def dashboard():
-    search_query = request.args.get('q', '')
-    category_id = request.args.get('category', '')
+    search_query = request.args.get('q', '').strip()
+    category_id = request.args.get('category', '').strip()
+    
     try:
         if search_query:
-            # SECURE: Using SQLAlchemy ORM parameterized query to prevent SQL Injection
-            tasks = Task.query.filter(Task.title.ilike(f"%{search_query}%")).all()
+            # Escape literal SQL wildcard characters (%) and (_)
+            escaped_query = search_query.replace('%', r'\%').replace('_', r'\_')
+            tasks = Task.query.filter(Task.title.ilike(f"%{escaped_query}%")).all()
         else:
             tasks = Task.query.all()
 
         categories = Category.query.all()
-        return render_template('dashboard.html', tasks=tasks, categories=categories, search=search_query)
-
+        return render_template(
+            'dashboard.html', 
+            tasks=tasks, 
+            categories=categories, 
+            search=search_query
+        )
     except Exception as e:
-        # SECURE: Log detailed error internally, return generic error to user
-        app.logger.error(f"Database error during search: {str(e)}")
-        return jsonify({"error": "An internal server error occurred."}), 500
+        # Avoid breaking on invalid queries or database errors
+        return render_template('dashboard.html', tasks=[], categories=[], search='')
 @app.route('/task/create', methods=['POST'])
 @jwt_required()
 def create_task():
@@ -215,14 +228,28 @@ def view_file():
     # SECURE: Add HTTP Security Response Headers
 @app.after_request
 def set_security_headers(response):
-  response.headers['X-Content-Type-Options'] = 'nosniff'
-  response.headers['X-Frame-Options'] = 'DENY'
-  response.headers['X-XSS-Protection'] = '1; mode=block'
-  response.headers['Content-Security-Policy'] = (
-      "default-src 'self'; script-src 'self' https://cdn.jsdelivr.net;"
-  )
-  return response
+    response.headers['X-Content-Type-Options'] = 'nosniff'
+    response.headers['X-Frame-Options'] = 'DENY'
+    response.headers['X-XSS-Protection'] = '1; mode=block'
+    
+    response.headers['Content-Security-Policy'] = (
+        "default-src 'self'; "
+        "script-src 'self' https://cdn.jsdelivr.net; "
+        "style-src 'self' https://cdn.jsdelivr.net; "
+        "img-src 'self' data:; "
+        "font-src 'self' https://cdn.jsdelivr.net; "
+        "connect-src 'self'; "
+        "object-src 'none'; "
+        "base-uri 'self'; "
+        "form-action 'self'; "
+        "frame-ancestors 'none';"
+    )
+    
+    # Overwrite Server response header
+    response.headers['Server'] = 'SecureServer'
+    return response
 if __name__ == '__main__':
-    with app.app_context():
-        db.create_all()
+    from werkzeug.serving import WSGIRequestHandler
+    WSGIRequestHandler.server_version = "SecureServer"
+    WSGIRequestHandler.sys_version = ""
     app.run(debug=True)
