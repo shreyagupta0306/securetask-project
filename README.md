@@ -14,7 +14,7 @@ SecureTask is a Python Flask task management application built to demonstrate se
 * **Dynamic Application Security Testing (DAST):** OWASP ZAP[cite: 1]
 
 ---
-
+[![Quality Gate Status](http://localhost:9000/api/project_badges/measure?project=securetask-project&metric=alert_status)](http://localhost:9000/dashboard?id=securetask-project)
 ## 📅 Project Progress Summary (Weeks 1 – 6)
 
 ### Week 1: Environment Setup & Core Authentication
