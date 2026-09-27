@@ -85,3 +85,30 @@ reports/
 ├── semgrep-report.json
 ├── semgrep-report.txt
 └── zap-report.html
+
+---
+
+## Repository Structure & Week 8 Artifacts
+
+```text
+SecureTask/
+├── docs/
+│   ├── INSTALLATION.md
+│   ├── FINAL_SECURITY_REPORT.md
+│   ├── VULNERABILITY_MATRIX.md
+│   └── PRESENTATION_SLIDES.pdf
+├── screenshots/
+│   ├── SAST/
+│   │   ├── bandit_before_remediation.png
+│   │   └── bandit_after_remediation.png
+│   ├── SCA/
+│   │   ├── pip_audit_vulnerabilities.png
+│   │   └── pip_audit_clean.png
+│   ├── Secrets/
+│   │   └── gitleaks_scan.png
+│   └── DAST/
+│       ├── zap_active_scan.png
+│       └── zap_final_report.png
+├── app.py
+├── requirements.txt
+└── README.md
