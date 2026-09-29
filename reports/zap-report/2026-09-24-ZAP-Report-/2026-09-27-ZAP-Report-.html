@@ -1,0 +1,3944 @@
+<!DOCTYPE html>
+<html>
+<head>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>SecureTask Remediated Security Report</title>
+<link href="2026-09-27-ZAP-Report-2/common.css"
+	rel="stylesheet" type="text/css">
+<link href="2026-09-27-ZAP-Report-2/console.css" rel="stylesheet" type="text/css">
+<script src="2026-09-27-ZAP-Report-2/chart.min.js" type="text/javascript"></script>
+<script type="text/javascript">
+    function showHide(id) {
+        showHideElement(id + "reqh");
+        showHideElement(id + "reqb");
+        showHideElement(id + "resph");
+        showHideElement(id + "respb");
+    }
+    function showHideElement(id) {
+        var x = document.getElementById(id);
+        if (x.style.display === "none") {
+            x.style.display = "block";
+        } else {
+            x.style.display = "none";
+        }
+    }
+</script>
+<link rel="stylesheet" href="2026-09-27-ZAP-Report-2/chart.min.css">
+</head>
+<body>
+
+	
+		<div class="hero"></div>
+	
+
+	<header id="header">
+		<div class="wrap">
+			<div class="inner">
+				<h1>
+					<!-- The ZAP Logo -->
+					<img src="2026-09-27-ZAP-Report-2/zap32x32.png" alt="ZAP" />
+					SecureTask Remediated Security Report
+				</h1>
+			</div>
+		</div>
+	</header>
+
+	<section id="segment-01" class="container">
+		<div class="wrap">
+			<div class="inner pt3">
+
+				
+
+				<h3>
+					Generated on Sun, 27 Sept 2026 17:29:20
+				</h3>
+
+				<h3>
+					ZAP Version: 2.17.0
+				</h3>
+
+				<h4>
+					ZAP by <a href="https://checkmarx.com/">Checkmarx</a>
+				</h4>
+
+				
+					<!--  Hidden divs just to allow us to get hold of the right CSS colors -->
+					<div class="risk-3-chart" style="display: none;"></div>
+					<div class="risk-2-chart" style="display: none;"></div>
+					<div class="risk-1-chart" style="display: none;"></div>
+					<div class="risk-0-chart" style="display: none;"></div>
+					<div class="chart-text-color" style="display: none;"></div>
+
+					<div class="summaryChartWrapper">
+						<canvas id="summaryChart" width="550" height="300"></canvas>
+						<script type="text/javascript">
+                            /*<![CDATA[*/
+                            var title = "Alert Chart";
+                            var labels = [
+                            "High",
+                            "Medium",
+                            "Low",
+                            "Informational"];
+                            var data = [
+                            null,
+                            null,
+                            1,
+                            2];
+                            /*]]>*/
+
+                            const fontColor = getComputedStyle(document
+                                    .querySelector('.chart-text-color')).color;
+
+                            var options = {
+                                responsive : true,
+                                legend : {
+                                    position : 'bottom',
+                                    labels : {
+                                        fontColor : fontColor,
+                                        padding : 30
+                                    }
+                                }
+                            }
+
+                            const chartHigh = getComputedStyle(document
+                                    .querySelector('.risk-3-chart')).backgroundColor;
+                            const chartMed = getComputedStyle(document
+                                    .querySelector('.risk-2-chart')).backgroundColor;
+                            const chartLow = getComputedStyle(document
+                                    .querySelector('.risk-1-chart')).backgroundColor;
+                            const chartInfo = getComputedStyle(document
+                                    .querySelector('.risk-0-chart')).backgroundColor;
+
+                            new Chart(document.getElementById("summaryChart"),
+                                    {
+                                        type : "doughnut",
+                                        data : {
+                                            labels : labels,
+                                            datasets : [ {
+                                                label : title,
+                                                data : data,
+                                                fill : false,
+                                                backgroundColor : [ chartHigh,
+                                                        chartMed, chartLow,
+                                                        chartInfo ],
+                                                borderWidth : 0
+                                            } ]
+                                        },
+                                        options : options
+                                    });
+                        </script>
+					</div>
+				
+
+				
+					<h3 class="left-header">Summary of Alerts</h3>
+					<div class="tableWrapper">
+						<table class="summary" cellspacing="0" cellpadding="0">
+							<tr>
+								<th width="45%"
+									height="24">Risk Level</th>
+								<th width="55%"
+									align="center">Number of Alerts</th>
+							</tr>
+							<tr>
+								<td class="risk-3">
+									<div>High</div>
+								</td>
+								<td align="center">
+									<div>0</div>
+								</td>
+							</tr>
+							<tr>
+								<td class="risk-2">
+									<div>Medium</div>
+								</td>
+								<td align="center">
+									<div>0</div>
+								</td>
+							</tr>
+							<tr>
+								<td class="risk-1">
+									<div>Low</div>
+								</td>
+								<td align="center">
+									<div>1</div>
+								</td>
+							</tr>
+							<tr>
+								<td class="risk-0">
+									<div>Informational</div>
+								</td>
+								<td align="center">
+									<div>2</div>
+								</td>
+							</tr>
+							
+						</table>
+					</div>
+					<div class="spacer-lg"></div>
+				
+
+			</div>
+		</div>
+	</section>
+
+	
+	
+	
+		<div></div>
+	
+
+	<section id="segment-02" class="container">
+		<div class="wrap">
+			<div class="inner">
+
+				
+					<h3>Insights</h3>
+					
+					<div class="tableWrapper">
+						<table class="insights" cellspacing="0" cellpadding="0">
+							<tr>
+								<th height="24">Level</th>
+								<th>Reason</th>
+								<th>Site</th>
+								<th>Description</th>
+								<th>Statistic</th>
+							</tr>
+							
+								<tr>
+									<td class="risk-0">
+										<div>Info</div>
+									</td>
+									<td>
+										<div>Informational</div>
+									</td>
+									<td>
+										<div>http://127.0.0.1:5000</div>
+									</td>
+									<td>
+										<div>Percentage of responses with status code 2xx</div>
+									</td>
+									<td align="center">
+										<div>61 %</div>
+									</td>
+								</tr>
+							
+								<tr>
+									<td class="risk-0">
+										<div>Info</div>
+									</td>
+									<td>
+										<div>Informational</div>
+									</td>
+									<td>
+										<div>http://127.0.0.1:5000</div>
+									</td>
+									<td>
+										<div>Percentage of responses with status code 3xx</div>
+									</td>
+									<td align="center">
+										<div>12 %</div>
+									</td>
+								</tr>
+							
+								<tr>
+									<td class="risk-0">
+										<div>Info</div>
+									</td>
+									<td>
+										<div>Exceeded Low</div>
+									</td>
+									<td>
+										<div>http://127.0.0.1:5000</div>
+									</td>
+									<td>
+										<div>Percentage of responses with status code 4xx</div>
+									</td>
+									<td align="center">
+										<div>38 %</div>
+									</td>
+								</tr>
+							
+								<tr>
+									<td class="risk-0">
+										<div>Info</div>
+									</td>
+									<td>
+										<div>Informational</div>
+									</td>
+									<td>
+										<div>http://127.0.0.1:5000</div>
+									</td>
+									<td>
+										<div>Percentage of endpoints with content type application/json</div>
+									</td>
+									<td align="center">
+										<div>33 %</div>
+									</td>
+								</tr>
+							
+								<tr>
+									<td class="risk-0">
+										<div>Info</div>
+									</td>
+									<td>
+										<div>Informational</div>
+									</td>
+									<td>
+										<div>http://127.0.0.1:5000</div>
+									</td>
+									<td>
+										<div>Percentage of endpoints with content type text/html</div>
+									</td>
+									<td align="center">
+										<div>66 %</div>
+									</td>
+								</tr>
+							
+								<tr>
+									<td class="risk-0">
+										<div>Info</div>
+									</td>
+									<td>
+										<div>Informational</div>
+									</td>
+									<td>
+										<div>http://127.0.0.1:5000</div>
+									</td>
+									<td>
+										<div>Percentage of endpoints with method GET</div>
+									</td>
+									<td align="center">
+										<div>83 %</div>
+									</td>
+								</tr>
+							
+								<tr>
+									<td class="risk-0">
+										<div>Info</div>
+									</td>
+									<td>
+										<div>Informational</div>
+									</td>
+									<td>
+										<div>http://127.0.0.1:5000</div>
+									</td>
+									<td>
+										<div>Percentage of endpoints with method POST</div>
+									</td>
+									<td align="center">
+										<div>16 %</div>
+									</td>
+								</tr>
+							
+								<tr>
+									<td class="risk-0">
+										<div>Info</div>
+									</td>
+									<td>
+										<div>Informational</div>
+									</td>
+									<td>
+										<div>http://127.0.0.1:5000</div>
+									</td>
+									<td>
+										<div>Count of total endpoints</div>
+									</td>
+									<td align="center">
+										<div>6   </div>
+									</td>
+								</tr>
+							
+								<tr>
+									<td class="risk-0">
+										<div>Info</div>
+									</td>
+									<td>
+										<div>Informational</div>
+									</td>
+									<td>
+										<div>http://127.0.0.1:5000</div>
+									</td>
+									<td>
+										<div>Percentage of slow responses</div>
+									</td>
+									<td align="center">
+										<div>1 %</div>
+									</td>
+								</tr>
+							
+						</table>
+					</div>
+					<div class="spacer-lg"></div>
+				
+
+				
+					<h3>Alerts</h3>
+					<div class="tableWrapper">
+						<table class="alerts" cellspacing="0" cellpadding="0">
+							<tr>
+								<th width="60%" height="24">Name</th>
+								<th width="20%"
+									align="center">Risk Level</th>
+								<th width="20%"
+									align="center">Number of Instances</th>
+							</tr>
+							<tr>
+								<td><a href="#plugin-10036">Server Leaks Version Information via &quot;Server&quot; HTTP Response Header Field</a></td>
+								<td align="center" class="risk-1">Low</td>
+								
+									<td align="center">Systemic</td>
+								
+								
+							</tr>
+							<tr>
+								<td><a href="#plugin-10112">Session Management Response Identified</a></td>
+								<td align="center" class="risk-0">Informational</td>
+								
+								
+									<td align="center">3</td>
+								
+							</tr>
+							<tr>
+								<td><a href="#plugin-10031">User Controllable HTML Element Attribute (Potential XSS)</a></td>
+								<td align="center" class="risk-0">Informational</td>
+								
+								
+									<td align="center">1</td>
+								
+							</tr>
+						</table>
+					</div>
+				
+
+			</div>
+		</div>
+	</section>
+
+	<section id="segment-03" class="container">
+		<div class="wrap">
+			<div class="inner">
+
+				
+					<h3>Passing Rules</h3>
+					<div class="tableWrapper">
+						<table class="alerts" cellspacing="0" cellpadding="0">
+							<tr>
+								<th width="55%" height="24">Name</th>
+								<th width="15%"
+									align="center">Rule Type</th>
+								<th width="15%"
+									align="center">Threshold</th>
+								<th width="15%"
+									align="center">Strength</th>
+							</tr>
+							
+								
+									<tr>
+										<td><a
+											href="https://www.zaproxy.org/docs/alerts/90017/">XSLT Injection</a></td>
+										<td align="center">Active</td>
+										<td align="center">MEDIUM</td>
+										<td align="center">MEDIUM</td>
+									</tr>
+								
+									<tr>
+										<td><a
+											href="https://www.zaproxy.org/docs/alerts/90021/">XPath Injection</a></td>
+										<td align="center">Active</td>
+										<td align="center">MEDIUM</td>
+										<td align="center">MEDIUM</td>
+									</tr>
+								
+									<tr>
+										<td><a
+											href="https://www.zaproxy.org/docs/alerts/90020/">Remote OS Command Injection</a></td>
+										<td align="center">Active</td>
+										<td align="center">MEDIUM</td>
+										<td align="center">MEDIUM</td>
+									</tr>
+								
+									<tr>
+										<td><a
+											href="https://www.zaproxy.org/docs/alerts/90023/">XML External Entity Attack</a></td>
+										<td align="center">Active</td>
+										<td align="center">MEDIUM</td>
+										<td align="center">MEDIUM</td>
+									</tr>
+								
+									<tr>
+										<td><a
+											href="https://www.zaproxy.org/docs/alerts/6/">Path Traversal</a></td>
+										<td align="center">Active</td>
+										<td align="center">MEDIUM</td>
+										<td align="center">MEDIUM</td>
+									</tr>
+								
+									<tr>
+										<td><a
+											href="https://www.zaproxy.org/docs/alerts/7/">Remote File Inclusion</a></td>
+										<td align="center">Active</td>
+										<td align="center">MEDIUM</td>
+										<td align="center">MEDIUM</td>
+									</tr>
+								
+									<tr>
+										<td><a
+											href="https://www.zaproxy.org/docs/alerts/40009/">Server Side Include</a></td>
+										<td align="center">Active</td>
+										<td align="center">MEDIUM</td>
+										<td align="center">MEDIUM</td>
+									</tr>
+								
+									<tr>
+										<td><a
+											href="https://www.zaproxy.org/docs/alerts/90026/">SOAP Action Spoofing</a></td>
+										<td align="center">Active</td>
+										<td align="center">MEDIUM</td>
+										<td align="center">MEDIUM</td>
+									</tr>
+								
+									<tr>
+										<td><a
+											href="https://www.zaproxy.org/docs/alerts/90029/">SOAP XML Injection</a></td>
+										<td align="center">Active</td>
+										<td align="center">MEDIUM</td>
+										<td align="center">MEDIUM</td>
+									</tr>
+								
+									<tr>
+										<td><a
+											href="https://www.zaproxy.org/docs/alerts/40012/">Cross Site Scripting (Reflected)</a></td>
+										<td align="center">Active</td>
+										<td align="center">MEDIUM</td>
+										<td align="center">MEDIUM</td>
+									</tr>
+								
+									<tr>
+										<td><a
+											href="https://www.zaproxy.org/docs/alerts/50000/">Script Active Scan Rules</a></td>
+										<td align="center">Active</td>
+										<td align="center">MEDIUM</td>
+										<td align="center">MEDIUM</td>
+									</tr>
+								
+									<tr>
+										<td><a
+											href="https://www.zaproxy.org/docs/alerts/40048/">Remote Code Execution (React2Shell)</a></td>
+										<td align="center">Active</td>
+										<td align="center">MEDIUM</td>
+										<td align="center">MEDIUM</td>
+									</tr>
+								
+									<tr>
+										<td><a
+											href="https://www.zaproxy.org/docs/alerts/90035/">Server Side Template Injection</a></td>
+										<td align="center">Active</td>
+										<td align="center">MEDIUM</td>
+										<td align="center">MEDIUM</td>
+									</tr>
+								
+									<tr>
+										<td><a
+											href="https://www.zaproxy.org/docs/alerts/40018/">SQL Injection</a></td>
+										<td align="center">Active</td>
+										<td align="center">MEDIUM</td>
+										<td align="center">MEDIUM</td>
+									</tr>
+								
+									<tr>
+										<td><a
+											href="https://www.zaproxy.org/docs/alerts/20019/">External Redirect</a></td>
+										<td align="center">Active</td>
+										<td align="center">MEDIUM</td>
+										<td align="center">MEDIUM</td>
+									</tr>
+								
+									<tr>
+										<td><a
+											href="https://www.zaproxy.org/docs/alerts/90037/">Remote OS Command Injection (Time Based)</a></td>
+										<td align="center">Active</td>
+										<td align="center">MEDIUM</td>
+										<td align="center">MEDIUM</td>
+									</tr>
+								
+							
+							
+								
+									
+								
+									<tr>
+										<td><a
+											href="https://www.zaproxy.org/docs/alerts/10113/">Verification Request Identified</a></td>
+										<td align="center">Passive</td>
+										<td align="center">MEDIUM</td>
+										<td align="center">-</td>
+									</tr>
+								
+									<tr>
+										<td><a
+											href="https://www.zaproxy.org/docs/alerts/2/">Private IP Disclosure</a></td>
+										<td align="center">Passive</td>
+										<td align="center">MEDIUM</td>
+										<td align="center">-</td>
+									</tr>
+								
+									<tr>
+										<td><a
+											href="https://www.zaproxy.org/docs/alerts/3/">Session ID in URL Rewrite</a></td>
+										<td align="center">Passive</td>
+										<td align="center">MEDIUM</td>
+										<td align="center">-</td>
+									</tr>
+								
+									<tr>
+										<td><a
+											href="https://www.zaproxy.org/docs/alerts/10115/">Script Served From Malicious Domain (polyfill)</a></td>
+										<td align="center">Passive</td>
+										<td align="center">MEDIUM</td>
+										<td align="center">-</td>
+									</tr>
+								
+									<tr>
+										<td><a
+											href="https://www.zaproxy.org/docs/alerts/10116/">ZAP is Out of Date</a></td>
+										<td align="center">Passive</td>
+										<td align="center">MEDIUM</td>
+										<td align="center">-</td>
+									</tr>
+								
+									<tr>
+										<td><a
+											href="https://www.zaproxy.org/docs/alerts/90001/">Insecure JSF ViewState</a></td>
+										<td align="center">Passive</td>
+										<td align="center">MEDIUM</td>
+										<td align="center">-</td>
+									</tr>
+								
+									<tr>
+										<td><a
+											href="https://www.zaproxy.org/docs/alerts/90003/">Sub Resource Integrity Attribute Missing</a></td>
+										<td align="center">Passive</td>
+										<td align="center">MEDIUM</td>
+										<td align="center">-</td>
+									</tr>
+								
+									<tr>
+										<td><a
+											href="https://www.zaproxy.org/docs/alerts/10003/">Vulnerable JS Library (Powered by Retire.js)</a></td>
+										<td align="center">Passive</td>
+										<td align="center">MEDIUM</td>
+										<td align="center">-</td>
+									</tr>
+								
+									<tr>
+										<td><a
+											href="https://www.zaproxy.org/docs/alerts/90002/">Java Serialization Object</a></td>
+										<td align="center">Passive</td>
+										<td align="center">MEDIUM</td>
+										<td align="center">-</td>
+									</tr>
+								
+									<tr>
+										<td><a
+											href="https://www.zaproxy.org/docs/alerts/10009/">In Page Banner Information Leak</a></td>
+										<td align="center">Passive</td>
+										<td align="center">MEDIUM</td>
+										<td align="center">-</td>
+									</tr>
+								
+									<tr>
+										<td><a
+											href="https://www.zaproxy.org/docs/alerts/90011/">Charset Mismatch</a></td>
+										<td align="center">Passive</td>
+										<td align="center">MEDIUM</td>
+										<td align="center">-</td>
+									</tr>
+								
+									<tr>
+										<td><a
+											href="https://www.zaproxy.org/docs/alerts/10010/">Cookie No HttpOnly Flag</a></td>
+										<td align="center">Passive</td>
+										<td align="center">MEDIUM</td>
+										<td align="center">-</td>
+									</tr>
+								
+									<tr>
+										<td><a
+											href="https://www.zaproxy.org/docs/alerts/10011/">Cookie Without Secure Flag</a></td>
+										<td align="center">Passive</td>
+										<td align="center">MEDIUM</td>
+										<td align="center">-</td>
+									</tr>
+								
+									<tr>
+										<td><a
+											href="https://www.zaproxy.org/docs/alerts/10015/">Re-examine Cache-control Directives</a></td>
+										<td align="center">Passive</td>
+										<td align="center">MEDIUM</td>
+										<td align="center">-</td>
+									</tr>
+								
+									<tr>
+										<td><a
+											href="https://www.zaproxy.org/docs/alerts/10017/">Cross-Domain JavaScript Source File Inclusion</a></td>
+										<td align="center">Passive</td>
+										<td align="center">MEDIUM</td>
+										<td align="center">-</td>
+									</tr>
+								
+									<tr>
+										<td><a
+											href="https://www.zaproxy.org/docs/alerts/10019/">Content-Type Header Missing</a></td>
+										<td align="center">Passive</td>
+										<td align="center">MEDIUM</td>
+										<td align="center">-</td>
+									</tr>
+								
+									<tr>
+										<td><a
+											href="https://www.zaproxy.org/docs/alerts/10020/">Anti-clickjacking Header</a></td>
+										<td align="center">Passive</td>
+										<td align="center">MEDIUM</td>
+										<td align="center">-</td>
+									</tr>
+								
+									<tr>
+										<td><a
+											href="https://www.zaproxy.org/docs/alerts/10021/">X-Content-Type-Options Header Missing</a></td>
+										<td align="center">Passive</td>
+										<td align="center">MEDIUM</td>
+										<td align="center">-</td>
+									</tr>
+								
+									<tr>
+										<td><a
+											href="https://www.zaproxy.org/docs/alerts/90022/">Application Error Disclosure</a></td>
+										<td align="center">Passive</td>
+										<td align="center">MEDIUM</td>
+										<td align="center">-</td>
+									</tr>
+								
+									<tr>
+										<td><a
+											href="https://www.zaproxy.org/docs/alerts/10023/">Information Disclosure - Debug Error Messages</a></td>
+										<td align="center">Passive</td>
+										<td align="center">MEDIUM</td>
+										<td align="center">-</td>
+									</tr>
+								
+									<tr>
+										<td><a
+											href="https://www.zaproxy.org/docs/alerts/10024/">Information Disclosure - Sensitive Information in URL</a></td>
+										<td align="center">Passive</td>
+										<td align="center">MEDIUM</td>
+										<td align="center">-</td>
+									</tr>
+								
+									<tr>
+										<td><a
+											href="https://www.zaproxy.org/docs/alerts/10025/">Information Disclosure - Sensitive Information in HTTP Referrer Header</a></td>
+										<td align="center">Passive</td>
+										<td align="center">MEDIUM</td>
+										<td align="center">-</td>
+									</tr>
+								
+									<tr>
+										<td><a
+											href="https://www.zaproxy.org/docs/alerts/10027/">Information Disclosure - Suspicious Comments</a></td>
+										<td align="center">Passive</td>
+										<td align="center">MEDIUM</td>
+										<td align="center">-</td>
+									</tr>
+								
+									<tr>
+										<td><a
+											href="https://www.zaproxy.org/docs/alerts/10028/">Off-site Redirect</a></td>
+										<td align="center">Passive</td>
+										<td align="center">MEDIUM</td>
+										<td align="center">-</td>
+									</tr>
+								
+									<tr>
+										<td><a
+											href="https://www.zaproxy.org/docs/alerts/10029/">Cookie Poisoning</a></td>
+										<td align="center">Passive</td>
+										<td align="center">MEDIUM</td>
+										<td align="center">-</td>
+									</tr>
+								
+									<tr>
+										<td><a
+											href="https://www.zaproxy.org/docs/alerts/10030/">User Controllable Charset</a></td>
+										<td align="center">Passive</td>
+										<td align="center">MEDIUM</td>
+										<td align="center">-</td>
+									</tr>
+								
+									<tr>
+										<td><a
+											href="https://www.zaproxy.org/docs/alerts/90030/">WSDL File Detection</a></td>
+										<td align="center">Passive</td>
+										<td align="center">MEDIUM</td>
+										<td align="center">-</td>
+									</tr>
+								
+									
+								
+									<tr>
+										<td><a
+											href="https://www.zaproxy.org/docs/alerts/90033/">Loosely Scoped Cookie</a></td>
+										<td align="center">Passive</td>
+										<td align="center">MEDIUM</td>
+										<td align="center">-</td>
+									</tr>
+								
+									<tr>
+										<td><a
+											href="https://www.zaproxy.org/docs/alerts/10032/">Viewstate</a></td>
+										<td align="center">Passive</td>
+										<td align="center">MEDIUM</td>
+										<td align="center">-</td>
+									</tr>
+								
+									<tr>
+										<td><a
+											href="https://www.zaproxy.org/docs/alerts/10033/">Directory Browsing</a></td>
+										<td align="center">Passive</td>
+										<td align="center">MEDIUM</td>
+										<td align="center">-</td>
+									</tr>
+								
+									<tr>
+										<td><a
+											href="https://www.zaproxy.org/docs/alerts/10034/">Heartbleed OpenSSL Vulnerability (Indicative)</a></td>
+										<td align="center">Passive</td>
+										<td align="center">MEDIUM</td>
+										<td align="center">-</td>
+									</tr>
+								
+									<tr>
+										<td><a
+											href="https://www.zaproxy.org/docs/alerts/10035/">Strict-Transport-Security Header</a></td>
+										<td align="center">Passive</td>
+										<td align="center">MEDIUM</td>
+										<td align="center">-</td>
+									</tr>
+								
+									
+								
+									<tr>
+										<td><a
+											href="https://www.zaproxy.org/docs/alerts/10037/">Server Leaks Information via &quot;X-Powered-By&quot; HTTP Response Header Field(s)</a></td>
+										<td align="center">Passive</td>
+										<td align="center">MEDIUM</td>
+										<td align="center">-</td>
+									</tr>
+								
+									<tr>
+										<td><a
+											href="https://www.zaproxy.org/docs/alerts/10038/">Content Security Policy (CSP) Header Not Set</a></td>
+										<td align="center">Passive</td>
+										<td align="center">MEDIUM</td>
+										<td align="center">-</td>
+									</tr>
+								
+									<tr>
+										<td><a
+											href="https://www.zaproxy.org/docs/alerts/10039/">X-Backend-Server Header Information Leak</a></td>
+										<td align="center">Passive</td>
+										<td align="center">MEDIUM</td>
+										<td align="center">-</td>
+									</tr>
+								
+									<tr>
+										<td><a
+											href="https://www.zaproxy.org/docs/alerts/10040/">Secure Pages Include Mixed Content</a></td>
+										<td align="center">Passive</td>
+										<td align="center">MEDIUM</td>
+										<td align="center">-</td>
+									</tr>
+								
+									<tr>
+										<td><a
+											href="https://www.zaproxy.org/docs/alerts/10041/">HTTP to HTTPS Insecure Transition in Form Post</a></td>
+										<td align="center">Passive</td>
+										<td align="center">MEDIUM</td>
+										<td align="center">-</td>
+									</tr>
+								
+									<tr>
+										<td><a
+											href="https://www.zaproxy.org/docs/alerts/10042/">HTTPS to HTTP Insecure Transition in Form Post</a></td>
+										<td align="center">Passive</td>
+										<td align="center">MEDIUM</td>
+										<td align="center">-</td>
+									</tr>
+								
+									<tr>
+										<td><a
+											href="https://www.zaproxy.org/docs/alerts/10043/">User Controllable JavaScript Event (XSS)</a></td>
+										<td align="center">Passive</td>
+										<td align="center">MEDIUM</td>
+										<td align="center">-</td>
+									</tr>
+								
+									<tr>
+										<td><a
+											href="https://www.zaproxy.org/docs/alerts/10044/">Big Redirect Detected (Potential Sensitive Information Leak)</a></td>
+										<td align="center">Passive</td>
+										<td align="center">MEDIUM</td>
+										<td align="center">-</td>
+									</tr>
+								
+									<tr>
+										<td><a
+											href="https://www.zaproxy.org/docs/alerts/10050/">Retrieved from Cache</a></td>
+										<td align="center">Passive</td>
+										<td align="center">MEDIUM</td>
+										<td align="center">-</td>
+									</tr>
+								
+									<tr>
+										<td><a
+											href="https://www.zaproxy.org/docs/alerts/10052/">X-ChromeLogger-Data (XCOLD) Header Information Leak</a></td>
+										<td align="center">Passive</td>
+										<td align="center">MEDIUM</td>
+										<td align="center">-</td>
+									</tr>
+								
+									<tr>
+										<td><a
+											href="https://www.zaproxy.org/docs/alerts/10054/">Cookie without SameSite Attribute</a></td>
+										<td align="center">Passive</td>
+										<td align="center">MEDIUM</td>
+										<td align="center">-</td>
+									</tr>
+								
+									<tr>
+										<td><a
+											href="https://www.zaproxy.org/docs/alerts/10055/">CSP</a></td>
+										<td align="center">Passive</td>
+										<td align="center">MEDIUM</td>
+										<td align="center">-</td>
+									</tr>
+								
+									<tr>
+										<td><a
+											href="https://www.zaproxy.org/docs/alerts/10056/">X-Debug-Token Information Leak</a></td>
+										<td align="center">Passive</td>
+										<td align="center">MEDIUM</td>
+										<td align="center">-</td>
+									</tr>
+								
+									<tr>
+										<td><a
+											href="https://www.zaproxy.org/docs/alerts/10057/">Username Hash Found</a></td>
+										<td align="center">Passive</td>
+										<td align="center">MEDIUM</td>
+										<td align="center">-</td>
+									</tr>
+								
+									<tr>
+										<td><a
+											href="https://www.zaproxy.org/docs/alerts/10061/">X-AspNet-Version Response Header</a></td>
+										<td align="center">Passive</td>
+										<td align="center">MEDIUM</td>
+										<td align="center">-</td>
+									</tr>
+								
+									<tr>
+										<td><a
+											href="https://www.zaproxy.org/docs/alerts/10062/">PII Disclosure</a></td>
+										<td align="center">Passive</td>
+										<td align="center">MEDIUM</td>
+										<td align="center">-</td>
+									</tr>
+								
+									<tr>
+										<td><a
+											href="https://www.zaproxy.org/docs/alerts/50001/">Script Passive Scan Rules</a></td>
+										<td align="center">Passive</td>
+										<td align="center">MEDIUM</td>
+										<td align="center">-</td>
+									</tr>
+								
+									<tr>
+										<td><a
+											href="https://www.zaproxy.org/docs/alerts/50003/">Stats Passive Scan Rule</a></td>
+										<td align="center">Passive</td>
+										<td align="center">MEDIUM</td>
+										<td align="center">-</td>
+									</tr>
+								
+									<tr>
+										<td><a
+											href="https://www.zaproxy.org/docs/alerts/10202/">Absence of Anti-CSRF Tokens</a></td>
+										<td align="center">Passive</td>
+										<td align="center">MEDIUM</td>
+										<td align="center">-</td>
+									</tr>
+								
+									<tr>
+										<td><a
+											href="https://www.zaproxy.org/docs/alerts/10096/">Timestamp Disclosure</a></td>
+										<td align="center">Passive</td>
+										<td align="center">MEDIUM</td>
+										<td align="center">-</td>
+									</tr>
+								
+									<tr>
+										<td><a
+											href="https://www.zaproxy.org/docs/alerts/10097/">Hash Disclosure</a></td>
+										<td align="center">Passive</td>
+										<td align="center">MEDIUM</td>
+										<td align="center">-</td>
+									</tr>
+								
+									<tr>
+										<td><a
+											href="https://www.zaproxy.org/docs/alerts/10098/">Cross-Domain Misconfiguration</a></td>
+										<td align="center">Passive</td>
+										<td align="center">MEDIUM</td>
+										<td align="center">-</td>
+									</tr>
+								
+									<tr>
+										<td><a
+											href="https://www.zaproxy.org/docs/alerts/10105/">Weak Authentication Method</a></td>
+										<td align="center">Passive</td>
+										<td align="center">MEDIUM</td>
+										<td align="center">-</td>
+									</tr>
+								
+									<tr>
+										<td><a
+											href="https://www.zaproxy.org/docs/alerts/10108/">Reverse Tabnabbing</a></td>
+										<td align="center">Passive</td>
+										<td align="center">MEDIUM</td>
+										<td align="center">-</td>
+									</tr>
+								
+									<tr>
+										<td><a
+											href="https://www.zaproxy.org/docs/alerts/10109/">Modern Web Application</a></td>
+										<td align="center">Passive</td>
+										<td align="center">MEDIUM</td>
+										<td align="center">-</td>
+									</tr>
+								
+									<tr>
+										<td><a
+											href="https://www.zaproxy.org/docs/alerts/10111/">Authentication Request Identified</a></td>
+										<td align="center">Passive</td>
+										<td align="center">MEDIUM</td>
+										<td align="center">-</td>
+									</tr>
+								
+							
+						</table>
+					</div>
+				
+
+			</div>
+		</div>
+	</section>
+
+	<section id="segment-04" class="container">
+		<div class="wrap">
+			<div class="inner">
+
+				<h2>Sites</h2>
+				
+					<h3>http://127.0.0.1:5000</h3>
+					
+						<div class="tableWrapper">
+							<table class="summary" cellspacing="0" cellpadding="0">
+								<tr>
+									<th width="45%" height="24">HTTP Response Code</th>
+									<th width="55%" align="center">Number of Responses</th>
+								</tr>
+
+								
+									<tr>
+										<td><a
+											href="https://developer.mozilla.org/docs/Web/HTTP/Status/404">404 Not Found</a>
+										</td>
+										<td align="center">
+											<div>21</div>
+										</td>
+									</tr>
+									
+								
+									<tr>
+										<td><a
+											href="https://developer.mozilla.org/docs/Web/HTTP/Status/200">200 OK</a>
+										</td>
+										<td align="center">
+											<div>626</div>
+										</td>
+									</tr>
+									
+								
+									<tr>
+										<td><a
+											href="https://developer.mozilla.org/docs/Web/HTTP/Status/400">400 Bad Request</a>
+										</td>
+										<td align="center">
+											<div>1</div>
+										</td>
+									</tr>
+									
+								
+									<tr>
+										<td><a
+											href="https://developer.mozilla.org/docs/Web/HTTP/Status/302">302 Found</a>
+										</td>
+										<td align="center">
+											<div>1</div>
+										</td>
+									</tr>
+									
+								
+									<tr>
+										<td><a
+											href="https://developer.mozilla.org/docs/Web/HTTP/Status/401">401 Unauthorized</a>
+										</td>
+										<td align="center">
+											<div>373</div>
+										</td>
+									</tr>
+									
+								
+							</table>
+						</div>
+
+						
+						<div class="tableWrapper">
+							<table class="summary" cellspacing="0" cellpadding="0">
+								<tr>
+									<th width="45%" height="24">Authentication Statistics</th>
+									<th width="55%" align="center">Number of Responses</th>
+								</tr>
+								
+									<tr>
+										<td>
+											<div>stats.auth.sessiontoken.session</div>
+										</td>
+										<td align="center">
+											<div>5</div>
+										</td>
+									</tr>
+								
+							</table>
+						</div>
+					
+					
+					
+						<div class="tableWrapper">
+							<table class="summary" cellspacing="0" cellpadding="0">
+								<tr>
+									<th>Parameter Name</th>
+									<th>Type</th>
+									<th>Flags</th>
+									<th>Times Used</th>
+									<th># Values</th>
+								</tr>
+								
+									<tr>
+										<td>
+											<div>session</div>
+										</td>
+										<td>
+											<div>Cookie</div>
+										</td>
+										<td>
+												<div>SameSite=Lax</div>
+											
+												<div>Path=/</div>
+											
+												<div>HttpOnly</div>
+											</td>
+										<td>
+											<div>5</div>
+										</td>
+										<td>
+											<div>2</div>
+										</td>
+									</tr>
+								
+									<tr>
+										<td>
+											<div>category_id</div>
+										</td>
+										<td>
+											<div>Form</div>
+										</td>
+										<td></td>
+										<td>
+											<div>1</div>
+										</td>
+										<td>
+											<div>1</div>
+										</td>
+									</tr>
+								
+									<tr>
+										<td>
+											<div>csrf_token</div>
+										</td>
+										<td>
+											<div>Form</div>
+										</td>
+										<td>
+												<div>anticsrf</div>
+											</td>
+										<td>
+											<div>1</div>
+										</td>
+										<td>
+											<div>1</div>
+										</td>
+									</tr>
+								
+									<tr>
+										<td>
+											<div>description</div>
+										</td>
+										<td>
+											<div>Form</div>
+										</td>
+										<td></td>
+										<td>
+											<div>1</div>
+										</td>
+										<td>
+											<div>1</div>
+										</td>
+									</tr>
+								
+									<tr>
+										<td>
+											<div>title</div>
+										</td>
+										<td>
+											<div>Form</div>
+										</td>
+										<td></td>
+										<td>
+											<div>1</div>
+										</td>
+										<td>
+											<div>1</div>
+										</td>
+									</tr>
+								
+									<tr>
+										<td>
+											<div>category</div>
+										</td>
+										<td>
+											<div>URL</div>
+										</td>
+										<td></td>
+										<td>
+											<div>1</div>
+										</td>
+										<td>
+											<div>1</div>
+										</td>
+									</tr>
+								
+									<tr>
+										<td>
+											<div>q</div>
+										</td>
+										<td>
+											<div>URL</div>
+										</td>
+										<td></td>
+										<td>
+											<div>1</div>
+										</td>
+										<td>
+											<div>1</div>
+										</td>
+									</tr>
+								
+									<tr>
+										<td>
+											<div>Connection</div>
+										</td>
+										<td>
+											<div>Header</div>
+										</td>
+										<td></td>
+										<td>
+											<div>8</div>
+										</td>
+										<td>
+											<div>1</div>
+										</td>
+									</tr>
+								
+									<tr>
+										<td>
+											<div>Content-Length</div>
+										</td>
+										<td>
+											<div>Header</div>
+										</td>
+										<td></td>
+										<td>
+											<div>8</div>
+										</td>
+										<td>
+											<div>5</div>
+										</td>
+									</tr>
+								
+									<tr>
+										<td>
+											<div>Content-Security-Policy</div>
+										</td>
+										<td>
+											<div>Header</div>
+										</td>
+										<td></td>
+										<td>
+											<div>8</div>
+										</td>
+										<td>
+											<div>1</div>
+										</td>
+									</tr>
+								
+									<tr>
+										<td>
+											<div>Content-Type</div>
+										</td>
+										<td>
+											<div>Header</div>
+										</td>
+										<td></td>
+										<td>
+											<div>8</div>
+										</td>
+										<td>
+											<div>2</div>
+										</td>
+									</tr>
+								
+									<tr>
+										<td>
+											<div>Date</div>
+										</td>
+										<td>
+											<div>Header</div>
+										</td>
+										<td></td>
+										<td>
+											<div>8</div>
+										</td>
+										<td>
+											<div>1</div>
+										</td>
+									</tr>
+								
+									<tr>
+										<td>
+											<div>Location</div>
+										</td>
+										<td>
+											<div>Header</div>
+										</td>
+										<td></td>
+										<td>
+											<div>1</div>
+										</td>
+										<td>
+											<div>1</div>
+										</td>
+									</tr>
+								
+									<tr>
+										<td>
+											<div>Server</div>
+										</td>
+										<td>
+											<div>Header</div>
+										</td>
+										<td></td>
+										<td>
+											<div>16</div>
+										</td>
+										<td>
+											<div>2</div>
+										</td>
+									</tr>
+								
+									<tr>
+										<td>
+											<div>Vary</div>
+										</td>
+										<td>
+											<div>Header</div>
+										</td>
+										<td></td>
+										<td>
+											<div>4</div>
+										</td>
+										<td>
+											<div>1</div>
+										</td>
+									</tr>
+								
+									<tr>
+										<td>
+											<div>X-Content-Type-Options</div>
+										</td>
+										<td>
+											<div>Header</div>
+										</td>
+										<td></td>
+										<td>
+											<div>8</div>
+										</td>
+										<td>
+											<div>1</div>
+										</td>
+									</tr>
+								
+									<tr>
+										<td>
+											<div>X-Frame-Options</div>
+										</td>
+										<td>
+											<div>Header</div>
+										</td>
+										<td></td>
+										<td>
+											<div>8</div>
+										</td>
+										<td>
+											<div>1</div>
+										</td>
+									</tr>
+								
+									<tr>
+										<td>
+											<div>X-XSS-Protection</div>
+										</td>
+										<td>
+											<div>Header</div>
+										</td>
+										<td></td>
+										<td>
+											<div>8</div>
+										</td>
+										<td>
+											<div>1</div>
+										</td>
+									</tr>
+								
+
+							</table>
+						</div>
+					
+				
+
+				
+					<h3>Alert Detail</h3>
+					
+						<div class="tableWrapper">
+							<table class="results" cellspacing="0" cellpadding="0">
+								<tr height="24">
+									<th width="20%" class="risk-1"><a
+										id="plugin-10036"></a>
+										<div>Low</div></th>
+									<th class="risk-1">Server Leaks Version Information via &quot;Server&quot; HTTP Response Header Field</th>
+								</tr>
+								<tr>
+									<td width="20%">Description</td>
+									<td width="80%">
+											<div>The web/application server is leaking version information via the &quot;Server&quot; HTTP response header. Access to such information may facilitate attackers identifying other vulnerabilities your web/application server is subject to.</div>
+											
+										</td>
+								</tr>
+								<TR vAlign="top">
+									<TD colspan="2"></TD>
+								</TR>
+								
+									<tr>
+										<td width="20%"
+											class="indent1">URL</td>
+										<td width="80%"><a href="http://127.0.0.1:5000">http://127.0.0.1:5000</a></td>
+									</tr>
+									
+										<tr>
+											<td width="20%"
+												class="indent2">Node Name</td>
+											<td width="80%">http://127.0.0.1:5000</td>
+										</tr>
+									
+									<tr>
+										<td width="20%"
+											class="indent2">Method</td>
+										<td width="80%">GET</td>
+									</tr>
+									<tr>
+										<td width="20%"
+											class="indent2">Parameter</td>
+										<td width="80%"></td>
+									</tr>
+									<tr>
+										<td width="20%"
+											class="indent2">Attack</td>
+										<td width="80%"></td>
+									</tr>
+									<tr>
+										<td width="20%"
+											class="indent2">Evidence</td>
+										<td width="80%">Werkzeug/3.1.8 Python/3.13.7</td>
+									</tr>
+									<tr>
+										<td width="20%"
+											class="indent2">Other Info</td>
+										<td width="80%"></td>
+									</tr>
+									<tr>
+										<td width="20%" class="indent2">
+											<div id="alert-1">
+												<a
+													onclick="showHide(&#39;alert-1&#39;);"
+													href="#1">Show / hide Request and Response</a>
+											</div>
+										</td>
+										<td width="80%"></td>
+									</tr>
+									<tr>
+										<td width="20%" class="indent2">Request Header
+											- size: 228 bytes.
+										</td>
+										<td width="80%">
+											<div
+												id="alert-1reqh"
+												style="display: none;">
+												
+													GET http://127.0.0.1:5000 HTTP/1.1
+													<br />
+												
+													host: 127.0.0.1:5000
+													<br />
+												
+													user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36
+													<br />
+												
+													pragma: no-cache
+													<br />
+												
+													cache-control: no-cache
+													<br />
+												
+													
+													
+												
+											</div>
+										</td>
+									</tr>
+									<tr>
+										<td width="20%" class="indent2">Request Body
+											- size: 0 bytes.
+										</td>
+										<td width="80%">
+											<div
+												id="alert-1reqb"
+												style="display: none;">
+												
+											</div>
+										</td>
+									</tr>
+									<tr>
+										<td width="20%" class="indent2">Response Header
+											- size: 607 bytes.
+										</td>
+										<td width="80%">
+											<div
+												id="alert-1resph"
+												style="display: none;">
+												
+													HTTP/1.1 302 FOUND
+													<br />
+												
+													Server: Werkzeug/3.1.8 Python/3.13.7
+													<br />
+												
+													Date: Sun, 27 Sep 2026 11:51:19 GMT
+													<br />
+												
+													Content-Type: text/html; charset=utf-8
+													<br />
+												
+													Content-Length: 207
+													<br />
+												
+													Location: /dashboard
+													<br />
+												
+													X-Content-Type-Options: nosniff
+													<br />
+												
+													X-Frame-Options: DENY
+													<br />
+												
+													X-XSS-Protection: 1; mode=block
+													<br />
+												
+													Content-Security-Policy: default-src &#39;self&#39;; script-src &#39;self&#39; https://cdn.jsdelivr.net; style-src &#39;self&#39; https://cdn.jsdelivr.net; img-src &#39;self&#39; data:; font-src &#39;self&#39; https://cdn.jsdelivr.net; connect-src &#39;self&#39;; object-src &#39;none&#39;; base-uri &#39;self&#39;; form-action &#39;self&#39;; frame-ancestors &#39;none&#39;;
+													<br />
+												
+													Server: SecureServer
+													<br />
+												
+													Connection: close
+													<br />
+												
+													
+													
+												
+											</div>
+										</td>
+									</tr>
+									<tr>
+										<td width="20%" class="indent2">Response Body
+											- size: 207 bytes.
+										</td>
+										<td width="80%">
+											<div
+												id="alert-1respb"
+												style="display: none;">
+												
+													&lt;!doctype html&gt;
+													<br />
+												
+													&lt;html lang=en&gt;
+													<br />
+												
+													&lt;title&gt;Redirecting...&lt;/title&gt;
+													<br />
+												
+													&lt;h1&gt;Redirecting...&lt;/h1&gt;
+													<br />
+												
+													&lt;p&gt;You should be redirected automatically to the target URL: &lt;a href=&quot;/dashboard&quot;&gt;/dashboard&lt;/a&gt;. If not, click the link.
+													
+												
+											</div>
+										</td>
+									</tr>
+								
+									<tr>
+										<td width="20%"
+											class="indent1">URL</td>
+										<td width="80%"><a href="http://127.0.0.1:5000/profile">http://127.0.0.1:5000/profile</a></td>
+									</tr>
+									
+										<tr>
+											<td width="20%"
+												class="indent2">Node Name</td>
+											<td width="80%">http://127.0.0.1:5000/profile</td>
+										</tr>
+									
+									<tr>
+										<td width="20%"
+											class="indent2">Method</td>
+										<td width="80%">GET</td>
+									</tr>
+									<tr>
+										<td width="20%"
+											class="indent2">Parameter</td>
+										<td width="80%"></td>
+									</tr>
+									<tr>
+										<td width="20%"
+											class="indent2">Attack</td>
+										<td width="80%"></td>
+									</tr>
+									<tr>
+										<td width="20%"
+											class="indent2">Evidence</td>
+										<td width="80%">Werkzeug/3.1.8 Python/3.13.7</td>
+									</tr>
+									<tr>
+										<td width="20%"
+											class="indent2">Other Info</td>
+										<td width="80%"></td>
+									</tr>
+									<tr>
+										<td width="20%" class="indent2">
+											<div id="alert-9">
+												<a
+													onclick="showHide(&#39;alert-9&#39;);"
+													href="#9">Show / hide Request and Response</a>
+											</div>
+										</td>
+										<td width="80%"></td>
+									</tr>
+									<tr>
+										<td width="20%" class="indent2">Request Header
+											- size: 407 bytes.
+										</td>
+										<td width="80%">
+											<div
+												id="alert-9reqh"
+												style="display: none;">
+												
+													GET http://127.0.0.1:5000/profile HTTP/1.1
+													<br />
+												
+													host: 127.0.0.1:5000
+													<br />
+												
+													user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36
+													<br />
+												
+													pragma: no-cache
+													<br />
+												
+													cache-control: no-cache
+													<br />
+												
+													referer: http://127.0.0.1:5000/dashboard
+													<br />
+												
+													Cookie: session=eyJjc3JmX3Rva2VuIjoiMDAxZTUzM2RlYTRiODMwYTZmODk5ZWYwZTY0ODZiNTdmOWExMTdmMSJ9.arkDNw.pqXmJ7d4v6tx-KBBxgqlVhzi1hg
+													<br />
+												
+													
+													
+												
+											</div>
+										</td>
+									</tr>
+									<tr>
+										<td width="20%" class="indent2">Request Body
+											- size: 0 bytes.
+										</td>
+										<td width="80%">
+											<div
+												id="alert-9reqb"
+												style="display: none;">
+												
+											</div>
+										</td>
+									</tr>
+									<tr>
+										<td width="20%" class="indent2">Response Header
+											- size: 580 bytes.
+										</td>
+										<td width="80%">
+											<div
+												id="alert-9resph"
+												style="display: none;">
+												
+													HTTP/1.1 404 NOT FOUND
+													<br />
+												
+													Server: Werkzeug/3.1.8 Python/3.13.7
+													<br />
+												
+													Date: Sun, 27 Sep 2026 11:51:19 GMT
+													<br />
+												
+													Content-Type: application/json
+													<br />
+												
+													Content-Length: 29
+													<br />
+												
+													X-Content-Type-Options: nosniff
+													<br />
+												
+													X-Frame-Options: DENY
+													<br />
+												
+													X-XSS-Protection: 1; mode=block
+													<br />
+												
+													Content-Security-Policy: default-src &#39;self&#39;; script-src &#39;self&#39; https://cdn.jsdelivr.net; style-src &#39;self&#39; https://cdn.jsdelivr.net; img-src &#39;self&#39; data:; font-src &#39;self&#39; https://cdn.jsdelivr.net; connect-src &#39;self&#39;; object-src &#39;none&#39;; base-uri &#39;self&#39;; form-action &#39;self&#39;; frame-ancestors &#39;none&#39;;
+													<br />
+												
+													Server: SecureServer
+													<br />
+												
+													Connection: close
+													<br />
+												
+													
+													
+												
+											</div>
+										</td>
+									</tr>
+									<tr>
+										<td width="20%" class="indent2">Response Body
+											- size: 29 bytes.
+										</td>
+										<td width="80%">
+											<div
+												id="alert-9respb"
+												style="display: none;">
+												
+													{&quot;message&quot;:&quot;User not found&quot;}
+													
+												
+											</div>
+										</td>
+									</tr>
+								
+									<tr>
+										<td width="20%"
+											class="indent1">URL</td>
+										<td width="80%"><a href="http://127.0.0.1:5000/robots.txt">http://127.0.0.1:5000/robots.txt</a></td>
+									</tr>
+									
+										<tr>
+											<td width="20%"
+												class="indent2">Node Name</td>
+											<td width="80%">http://127.0.0.1:5000/robots.txt</td>
+										</tr>
+									
+									<tr>
+										<td width="20%"
+											class="indent2">Method</td>
+										<td width="80%">GET</td>
+									</tr>
+									<tr>
+										<td width="20%"
+											class="indent2">Parameter</td>
+										<td width="80%"></td>
+									</tr>
+									<tr>
+										<td width="20%"
+											class="indent2">Attack</td>
+										<td width="80%"></td>
+									</tr>
+									<tr>
+										<td width="20%"
+											class="indent2">Evidence</td>
+										<td width="80%">Werkzeug/3.1.8 Python/3.13.7</td>
+									</tr>
+									<tr>
+										<td width="20%"
+											class="indent2">Other Info</td>
+										<td width="80%"></td>
+									</tr>
+									<tr>
+										<td width="20%" class="indent2">
+											<div id="alert-3">
+												<a
+													onclick="showHide(&#39;alert-3&#39;);"
+													href="#3">Show / hide Request and Response</a>
+											</div>
+										</td>
+										<td width="80%"></td>
+									</tr>
+									<tr>
+										<td width="20%" class="indent2">Request Header
+											- size: 239 bytes.
+										</td>
+										<td width="80%">
+											<div
+												id="alert-3reqh"
+												style="display: none;">
+												
+													GET http://127.0.0.1:5000/robots.txt HTTP/1.1
+													<br />
+												
+													host: 127.0.0.1:5000
+													<br />
+												
+													user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36
+													<br />
+												
+													pragma: no-cache
+													<br />
+												
+													cache-control: no-cache
+													<br />
+												
+													
+													
+												
+											</div>
+										</td>
+									</tr>
+									<tr>
+										<td width="20%" class="indent2">Request Body
+											- size: 0 bytes.
+										</td>
+										<td width="80%">
+											<div
+												id="alert-3reqb"
+												style="display: none;">
+												
+											</div>
+										</td>
+									</tr>
+									<tr>
+										<td width="20%" class="indent2">Response Header
+											- size: 589 bytes.
+										</td>
+										<td width="80%">
+											<div
+												id="alert-3resph"
+												style="display: none;">
+												
+													HTTP/1.1 404 NOT FOUND
+													<br />
+												
+													Server: Werkzeug/3.1.8 Python/3.13.7
+													<br />
+												
+													Date: Sun, 27 Sep 2026 11:51:19 GMT
+													<br />
+												
+													Content-Type: text/html; charset=utf-8
+													<br />
+												
+													Content-Length: 207
+													<br />
+												
+													X-Content-Type-Options: nosniff
+													<br />
+												
+													X-Frame-Options: DENY
+													<br />
+												
+													X-XSS-Protection: 1; mode=block
+													<br />
+												
+													Content-Security-Policy: default-src &#39;self&#39;; script-src &#39;self&#39; https://cdn.jsdelivr.net; style-src &#39;self&#39; https://cdn.jsdelivr.net; img-src &#39;self&#39; data:; font-src &#39;self&#39; https://cdn.jsdelivr.net; connect-src &#39;self&#39;; object-src &#39;none&#39;; base-uri &#39;self&#39;; form-action &#39;self&#39;; frame-ancestors &#39;none&#39;;
+													<br />
+												
+													Server: SecureServer
+													<br />
+												
+													Connection: close
+													<br />
+												
+													
+													
+												
+											</div>
+										</td>
+									</tr>
+									<tr>
+										<td width="20%" class="indent2">Response Body
+											- size: 207 bytes.
+										</td>
+										<td width="80%">
+											<div
+												id="alert-3respb"
+												style="display: none;">
+												
+													&lt;!doctype html&gt;
+													<br />
+												
+													&lt;html lang=en&gt;
+													<br />
+												
+													&lt;title&gt;404 Not Found&lt;/title&gt;
+													<br />
+												
+													&lt;h1&gt;Not Found&lt;/h1&gt;
+													<br />
+												
+													&lt;p&gt;The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.&lt;/p&gt;
+													
+												
+											</div>
+										</td>
+									</tr>
+								
+									<tr>
+										<td width="20%"
+											class="indent1">URL</td>
+										<td width="80%"><a href="http://127.0.0.1:5000/sitemap.xml">http://127.0.0.1:5000/sitemap.xml</a></td>
+									</tr>
+									
+										<tr>
+											<td width="20%"
+												class="indent2">Node Name</td>
+											<td width="80%">http://127.0.0.1:5000/sitemap.xml</td>
+										</tr>
+									
+									<tr>
+										<td width="20%"
+											class="indent2">Method</td>
+										<td width="80%">GET</td>
+									</tr>
+									<tr>
+										<td width="20%"
+											class="indent2">Parameter</td>
+										<td width="80%"></td>
+									</tr>
+									<tr>
+										<td width="20%"
+											class="indent2">Attack</td>
+										<td width="80%"></td>
+									</tr>
+									<tr>
+										<td width="20%"
+											class="indent2">Evidence</td>
+										<td width="80%">Werkzeug/3.1.8 Python/3.13.7</td>
+									</tr>
+									<tr>
+										<td width="20%"
+											class="indent2">Other Info</td>
+										<td width="80%"></td>
+									</tr>
+									<tr>
+										<td width="20%" class="indent2">
+											<div id="alert-4">
+												<a
+													onclick="showHide(&#39;alert-4&#39;);"
+													href="#4">Show / hide Request and Response</a>
+											</div>
+										</td>
+										<td width="80%"></td>
+									</tr>
+									<tr>
+										<td width="20%" class="indent2">Request Header
+											- size: 240 bytes.
+										</td>
+										<td width="80%">
+											<div
+												id="alert-4reqh"
+												style="display: none;">
+												
+													GET http://127.0.0.1:5000/sitemap.xml HTTP/1.1
+													<br />
+												
+													host: 127.0.0.1:5000
+													<br />
+												
+													user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36
+													<br />
+												
+													pragma: no-cache
+													<br />
+												
+													cache-control: no-cache
+													<br />
+												
+													
+													
+												
+											</div>
+										</td>
+									</tr>
+									<tr>
+										<td width="20%" class="indent2">Request Body
+											- size: 0 bytes.
+										</td>
+										<td width="80%">
+											<div
+												id="alert-4reqb"
+												style="display: none;">
+												
+											</div>
+										</td>
+									</tr>
+									<tr>
+										<td width="20%" class="indent2">Response Header
+											- size: 589 bytes.
+										</td>
+										<td width="80%">
+											<div
+												id="alert-4resph"
+												style="display: none;">
+												
+													HTTP/1.1 404 NOT FOUND
+													<br />
+												
+													Server: Werkzeug/3.1.8 Python/3.13.7
+													<br />
+												
+													Date: Sun, 27 Sep 2026 11:51:19 GMT
+													<br />
+												
+													Content-Type: text/html; charset=utf-8
+													<br />
+												
+													Content-Length: 207
+													<br />
+												
+													X-Content-Type-Options: nosniff
+													<br />
+												
+													X-Frame-Options: DENY
+													<br />
+												
+													X-XSS-Protection: 1; mode=block
+													<br />
+												
+													Content-Security-Policy: default-src &#39;self&#39;; script-src &#39;self&#39; https://cdn.jsdelivr.net; style-src &#39;self&#39; https://cdn.jsdelivr.net; img-src &#39;self&#39; data:; font-src &#39;self&#39; https://cdn.jsdelivr.net; connect-src &#39;self&#39;; object-src &#39;none&#39;; base-uri &#39;self&#39;; form-action &#39;self&#39;; frame-ancestors &#39;none&#39;;
+													<br />
+												
+													Server: SecureServer
+													<br />
+												
+													Connection: close
+													<br />
+												
+													
+													
+												
+											</div>
+										</td>
+									</tr>
+									<tr>
+										<td width="20%" class="indent2">Response Body
+											- size: 207 bytes.
+										</td>
+										<td width="80%">
+											<div
+												id="alert-4respb"
+												style="display: none;">
+												
+													&lt;!doctype html&gt;
+													<br />
+												
+													&lt;html lang=en&gt;
+													<br />
+												
+													&lt;title&gt;404 Not Found&lt;/title&gt;
+													<br />
+												
+													&lt;h1&gt;Not Found&lt;/h1&gt;
+													<br />
+												
+													&lt;p&gt;The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.&lt;/p&gt;
+													
+												
+											</div>
+										</td>
+									</tr>
+								
+									<tr>
+										<td width="20%"
+											class="indent1">URL</td>
+										<td width="80%"><a href="http://127.0.0.1:5000/task/create">http://127.0.0.1:5000/task/create</a></td>
+									</tr>
+									
+										<tr>
+											<td width="20%"
+												class="indent2">Node Name</td>
+											<td width="80%">http://127.0.0.1:5000/task/create ()(category_id,csrf_token,description,title)</td>
+										</tr>
+									
+									<tr>
+										<td width="20%"
+											class="indent2">Method</td>
+										<td width="80%">POST</td>
+									</tr>
+									<tr>
+										<td width="20%"
+											class="indent2">Parameter</td>
+										<td width="80%"></td>
+									</tr>
+									<tr>
+										<td width="20%"
+											class="indent2">Attack</td>
+										<td width="80%"></td>
+									</tr>
+									<tr>
+										<td width="20%"
+											class="indent2">Evidence</td>
+										<td width="80%">Werkzeug/3.1.8 Python/3.13.7</td>
+									</tr>
+									<tr>
+										<td width="20%"
+											class="indent2">Other Info</td>
+										<td width="80%"></td>
+									</tr>
+									<tr>
+										<td width="20%" class="indent2">
+											<div id="alert-10">
+												<a
+													onclick="showHide(&#39;alert-10&#39;);"
+													href="#10">Show / hide Request and Response</a>
+											</div>
+										</td>
+										<td width="80%"></td>
+									</tr>
+									<tr>
+										<td width="20%" class="indent2">Request Header
+											- size: 482 bytes.
+										</td>
+										<td width="80%">
+											<div
+												id="alert-10reqh"
+												style="display: none;">
+												
+													POST http://127.0.0.1:5000/task/create HTTP/1.1
+													<br />
+												
+													host: 127.0.0.1:5000
+													<br />
+												
+													user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36
+													<br />
+												
+													pragma: no-cache
+													<br />
+												
+													cache-control: no-cache
+													<br />
+												
+													content-type: application/x-www-form-urlencoded
+													<br />
+												
+													referer: http://127.0.0.1:5000/dashboard
+													<br />
+												
+													content-length: 251
+													<br />
+												
+													Cookie: session=eyJjc3JmX3Rva2VuIjoiMDAxZTUzM2RlYTRiODMwYTZmODk5ZWYwZTY0ODZiNTdmOWExMTdmMSJ9.arkDNw.pqXmJ7d4v6tx-KBBxgqlVhzi1hg
+													<br />
+												
+													
+													
+												
+											</div>
+										</td>
+									</tr>
+									<tr>
+										<td width="20%" class="indent2">Request Body
+											- size: 251 bytes.
+										</td>
+										<td width="80%">
+											<div
+												id="alert-10reqb"
+												style="display: none;">
+												
+													csrf_token=IjAwMWU1MzNkZWE0YjgzMGE2Zjg5OWVmMGU2NDg2YjU3ZjlhMTE3ZjEi.arkDNw.yzgY0ttSpyalj08avJ7crcLzdkA&amp;title=ZAP&amp;description=Zaproxy+alias+impedit+expedita+quisquam+pariatur+exercitationem.+Nemo+rerum+eveniet+dolores+rem+quia+dignissimos.&amp;category_id=
+													
+												
+											</div>
+										</td>
+									</tr>
+									<tr>
+										<td width="20%" class="indent2">Response Header
+											- size: 597 bytes.
+										</td>
+										<td width="80%">
+											<div
+												id="alert-10resph"
+												style="display: none;">
+												
+													HTTP/1.1 401 UNAUTHORIZED
+													<br />
+												
+													Server: Werkzeug/3.1.8 Python/3.13.7
+													<br />
+												
+													Date: Sun, 27 Sep 2026 11:51:19 GMT
+													<br />
+												
+													Content-Type: application/json
+													<br />
+												
+													Content-Length: 39
+													<br />
+												
+													X-Content-Type-Options: nosniff
+													<br />
+												
+													X-Frame-Options: DENY
+													<br />
+												
+													X-XSS-Protection: 1; mode=block
+													<br />
+												
+													Content-Security-Policy: default-src &#39;self&#39;; script-src &#39;self&#39; https://cdn.jsdelivr.net; style-src &#39;self&#39; https://cdn.jsdelivr.net; img-src &#39;self&#39; data:; font-src &#39;self&#39; https://cdn.jsdelivr.net; connect-src &#39;self&#39;; object-src &#39;none&#39;; base-uri &#39;self&#39;; form-action &#39;self&#39;; frame-ancestors &#39;none&#39;;
+													<br />
+												
+													Server: SecureServer
+													<br />
+												
+													Vary: Cookie
+													<br />
+												
+													Connection: close
+													<br />
+												
+													
+													
+												
+											</div>
+										</td>
+									</tr>
+									<tr>
+										<td width="20%" class="indent2">Response Body
+											- size: 39 bytes.
+										</td>
+										<td width="80%">
+											<div
+												id="alert-10respb"
+												style="display: none;">
+												
+													{&quot;msg&quot;:&quot;Missing Authorization Header&quot;}
+													
+												
+											</div>
+										</td>
+									</tr>
+								
+								<tr>
+									<td width="20%">Instances</td>
+									
+										<td width="80%">Systemic</td>
+									
+									
+								</tr>
+								<tr>
+									<td width="20%">Solution</td>
+									<td width="80%">
+											<div>Ensure that your web server, application server, load balancer, etc. is configured to suppress the &quot;Server&quot; header or provide generic details.</div>
+											
+										</td>
+								</tr>
+								<tr>
+									<td width="20%">Reference</td>
+									<td width="80%">
+											<a href="https://httpd.apache.org/docs/current/mod/core.html#servertokens">https://httpd.apache.org/docs/current/mod/core.html#servertokens</a>
+											<br />
+										
+											<a href="https://learn.microsoft.com/en-us/previous-versions/msp-n-p/ff648552(v=pandp.10)">https://learn.microsoft.com/en-us/previous-versions/msp-n-p/ff648552(v=pandp.10)</a>
+											<br />
+										
+											<a href="https://www.troyhunt.com/shhh-dont-let-your-response-headers/">https://www.troyhunt.com/shhh-dont-let-your-response-headers/</a>
+											
+										</td>
+								</tr>
+								<tr>
+									<td width="20%">Tags</td>
+									<td width="80%">
+
+											
+												<a href="https://owasp.org/Top10/2021/A05_2021-Security_Misconfiguration/">OWASP_2021_A05</a>
+											
+											
+											<br />
+										
+
+											
+											
+												POLICY_QA_STD
+											=
+											
+											
+											<br />
+										
+
+											
+											
+												POLICY_PENTEST
+											=
+											
+											
+											<br />
+										
+
+											
+												<a href="https://www.zaproxy.org/docs/desktop/addons/common-library/alerttags/#systemic">SYSTEMIC</a>
+											
+											
+											<br />
+										
+
+											
+												<a href="https://owasp.org/www-project-top-ten/2017/A6_2017-Security_Misconfiguration.html">OWASP_2017_A06</a>
+											
+											
+											<br />
+										
+
+											
+												<a href="https://owasp.org/www-project-web-security-testing-guide/v42/4-Web_Application_Security_Testing/01-Information_Gathering/02-Fingerprint_Web_Server">WSTG-v42-INFO-02</a>
+											
+											
+											<br />
+										
+
+											
+												<a href="https://cwe.mitre.org/data/definitions/497.html">CWE-497</a>
+											
+											
+											<br />
+										
+
+											
+												<a href="https://owasp.org/Top10/2025/A02_2025-Security_Misconfiguration/">OWASP_2025_A02</a>
+											
+											
+											
+										</td>
+								</tr>
+								<tr>
+									<td width="20%">CWE Id</td>
+									<td width="80%"><a
+										href="https://cwe.mitre.org/data/definitions/497.html">497</a></td>
+								</tr>
+								<tr>
+									<td width="20%">WASC Id</td>
+									<td width="80%">13</td>
+								</tr>
+								<tr>
+									<td width="20%">Plugin Id</td>
+									<td width="80%"><a
+										href="https://www.zaproxy.org/docs/alerts/10036/">10036</a></td>
+								</tr>
+							</table>
+						</div>
+						<div class="spacer"></div>
+					
+						<div class="tableWrapper">
+							<table class="results" cellspacing="0" cellpadding="0">
+								<tr height="24">
+									<th width="20%" class="risk-0"><a
+										id="plugin-10112"></a>
+										<div>Informational</div></th>
+									<th class="risk-0">Session Management Response Identified</th>
+								</tr>
+								<tr>
+									<td width="20%">Description</td>
+									<td width="80%">
+											<div>The given response has been identified as containing a session management token. The &#39;Other Info&#39; field contains a set of header tokens that can be used in the Header Based Session Management Method. If the request is in a context which has a Session Management Method set to &quot;Auto-Detect&quot; then this rule will change the session management to use the tokens identified.</div>
+											
+										</td>
+								</tr>
+								<TR vAlign="top">
+									<TD colspan="2"></TD>
+								</TR>
+								
+									<tr>
+										<td width="20%"
+											class="indent1">URL</td>
+										<td width="80%"><a href="http://127.0.0.1:5000">http://127.0.0.1:5000</a></td>
+									</tr>
+									
+										<tr>
+											<td width="20%"
+												class="indent2">Node Name</td>
+											<td width="80%">http://127.0.0.1:5000</td>
+										</tr>
+									
+									<tr>
+										<td width="20%"
+											class="indent2">Method</td>
+										<td width="80%">GET</td>
+									</tr>
+									<tr>
+										<td width="20%"
+											class="indent2">Parameter</td>
+										<td width="80%">session</td>
+									</tr>
+									<tr>
+										<td width="20%"
+											class="indent2">Attack</td>
+										<td width="80%"></td>
+									</tr>
+									<tr>
+										<td width="20%"
+											class="indent2">Evidence</td>
+										<td width="80%">session</td>
+									</tr>
+									<tr>
+										<td width="20%"
+											class="indent2">Other Info</td>
+										<td width="80%">
+												<div>cookie:session</div>
+												
+											</td>
+									</tr>
+									<tr>
+										<td width="20%" class="indent2">
+											<div id="alert-0">
+												<a
+													onclick="showHide(&#39;alert-0&#39;);"
+													href="#0">Show / hide Request and Response</a>
+											</div>
+										</td>
+										<td width="80%"></td>
+									</tr>
+									<tr>
+										<td width="20%" class="indent2">Request Header
+											- size: 228 bytes.
+										</td>
+										<td width="80%">
+											<div
+												id="alert-0reqh"
+												style="display: none;">
+												
+													GET http://127.0.0.1:5000 HTTP/1.1
+													<br />
+												
+													host: 127.0.0.1:5000
+													<br />
+												
+													user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36
+													<br />
+												
+													pragma: no-cache
+													<br />
+												
+													cache-control: no-cache
+													<br />
+												
+													
+													
+												
+											</div>
+										</td>
+									</tr>
+									<tr>
+										<td width="20%" class="indent2">Request Body
+											- size: 0 bytes.
+										</td>
+										<td width="80%">
+											<div
+												id="alert-0reqb"
+												style="display: none;">
+												
+											</div>
+										</td>
+									</tr>
+									<tr>
+										<td width="20%" class="indent2">Response Header
+											- size: 762 bytes.
+										</td>
+										<td width="80%">
+											<div
+												id="alert-0resph"
+												style="display: none;">
+												
+													HTTP/1.1 200 OK
+													<br />
+												
+													Server: Werkzeug/3.1.8 Python/3.13.7
+													<br />
+												
+													Date: Sun, 27 Sep 2026 11:51:19 GMT
+													<br />
+												
+													Content-Type: text/html; charset=utf-8
+													<br />
+												
+													Content-Length: 2157
+													<br />
+												
+													X-Content-Type-Options: nosniff
+													<br />
+												
+													X-Frame-Options: DENY
+													<br />
+												
+													X-XSS-Protection: 1; mode=block
+													<br />
+												
+													Content-Security-Policy: default-src &#39;self&#39;; script-src &#39;self&#39; https://cdn.jsdelivr.net; style-src &#39;self&#39; https://cdn.jsdelivr.net; img-src &#39;self&#39; data:; font-src &#39;self&#39; https://cdn.jsdelivr.net; connect-src &#39;self&#39;; object-src &#39;none&#39;; base-uri &#39;self&#39;; form-action &#39;self&#39;; frame-ancestors &#39;none&#39;;
+													<br />
+												
+													Server: SecureServer
+													<br />
+												
+													Vary: Cookie
+													<br />
+												
+													Set-Cookie: session=eyJjc3JmX3Rva2VuIjoiNWMyN2I4OWJiY2NlYTBiYzI5ZDExMWYyOTQ2N2YyMGIwYjZkZWM3OSJ9.arkDNw.ELG7jfp-LOgub1JWkRK-Xb0YbhI; HttpOnly; Path=/; SameSite=Lax
+													<br />
+												
+													Connection: close
+													<br />
+												
+													
+													
+												
+											</div>
+										</td>
+									</tr>
+									<tr>
+										<td width="20%" class="indent2">Response Body
+											- size: 2,157 bytes.
+										</td>
+										<td width="80%">
+											<div
+												id="alert-0respb"
+												style="display: none;">
+												
+													&lt;!DOCTYPE html&gt;
+													<br />
+												
+													&lt;html lang=&quot;en&quot;&gt;
+													<br />
+												
+													&lt;head&gt;
+													<br />
+												
+													    &lt;meta charset=&quot;UTF-8&quot;&gt;
+													<br />
+												
+													    &lt;title&gt;SecureTask - Dashboard&lt;/title&gt;
+													<br />
+												
+													&lt;/head&gt;
+													<br />
+												
+													&lt;body class=&quot;container py-4&quot;&gt;
+													<br />
+												
+													    &lt;div class=&quot;d-flex justify-content-between align-items-center mb-4&quot;&gt;
+													<br />
+												
+													        &lt;h2&gt;Task Dashboard&lt;/h2&gt;
+													<br />
+												
+													        &lt;a href=&quot;/profile&quot; class=&quot;btn btn-outline-secondary&quot;&gt;My Profile&lt;/a&gt;
+													<br />
+												
+													    &lt;/div&gt;
+													<br />
+												
+													    &lt;!-- Search &amp; Filter Bar --&gt;
+													<br />
+												
+													    &lt;form method=&quot;GET&quot; action=&quot;/dashboard&quot; class=&quot;row g-2 mb-4&quot;&gt;
+													<br />
+												
+													        &lt;div class=&quot;col-md-7&quot;&gt;
+													<br />
+												
+													            &lt;input type=&quot;text&quot; name=&quot;q&quot; class=&quot;form-control&quot; placeholder=&quot;Search tasks by title...&quot; value=&quot;&quot;&gt;
+													<br />
+												
+													        &lt;/div&gt;
+													<br />
+												
+													        &lt;div class=&quot;col-md-3&quot;&gt;
+													<br />
+												
+													            &lt;select name=&quot;category&quot; class=&quot;form-select&quot;&gt;
+													<br />
+												
+													                &lt;option value=&quot;&quot;&gt;All Categories&lt;/option&gt;
+													<br />
+												
+													                
+													<br />
+												
+													            &lt;/select&gt;
+													<br />
+												
+													        &lt;/div&gt;
+													<br />
+												
+													        &lt;div class=&quot;col-md-2&quot;&gt;
+													<br />
+												
+													            &lt;button type=&quot;submit&quot; class=&quot;btn btn-primary w-100&quot;&gt;Filter&lt;/button&gt;
+													<br />
+												
+													        &lt;/div&gt;
+													<br />
+												
+													    &lt;/form&gt;
+													<br />
+												
+													    &lt;!-- VULNERABILITY: Reflected XSS (unescaped search parameter) --&gt;
+													<br />
+												
+													    
+													<br />
+												
+													    &lt;!-- Create Task Card --&gt;
+													<br />
+												
+													    &lt;div class=&quot;card p-3 mb-4 shadow-sm&quot;&gt;
+													<br />
+												
+													        &lt;h5&gt;Add New Task&lt;/h5&gt;
+													<br />
+												
+													        &lt;form method=&quot;POST&quot; action=&quot;/task/create&quot;&gt;
+													<br />
+												
+													            &lt;input type=&quot;hidden&quot; name=&quot;csrf_token&quot; value=&quot;IjVjMjdiODliYmNjZWEwYmMyOWQxMTFmMjk0NjdmMjBiMGI2ZGVjNzki.arkDNw.EGMK47-DZL8gQGyr7a2Dxa1P4Hk&quot;/&gt;
+													<br />
+												
+													            &lt;div class=&quot;mb-2&quot;&gt;
+													<br />
+												
+													                &lt;input type=&quot;text&quot; name=&quot;title&quot; class=&quot;form-control&quot; placeholder=&quot;Task Title&quot; required&gt;
+													<br />
+												
+													            &lt;/div&gt;
+													<br />
+												
+													            &lt;div class=&quot;mb-2&quot;&gt;
+													<br />
+												
+													                &lt;textarea name=&quot;description&quot; class=&quot;form-control&quot; placeholder=&quot;Task Description&quot;&gt;&lt;/textarea&gt;
+													<br />
+												
+													            &lt;/div&gt;
+													<br />
+												
+													            &lt;div class=&quot;mb-3&quot;&gt;
+													<br />
+												
+													                &lt;select name=&quot;category_id&quot; class=&quot;form-select&quot;&gt;
+													<br />
+												
+													                    &lt;option value=&quot;&quot;&gt;Select Category (Optional)&lt;/option&gt;
+													<br />
+												
+													                    
+													<br />
+												
+													                &lt;/select&gt;
+													<br />
+												
+													            &lt;/div&gt;
+													<br />
+												
+													            &lt;button type=&quot;submit&quot; class=&quot;btn btn-success&quot;&gt;Create Task&lt;/button&gt;
+													<br />
+												
+													        &lt;/form&gt;
+													<br />
+												
+													    &lt;/div&gt;
+													<br />
+												
+													    &lt;!-- Task List --&gt;
+													<br />
+												
+													    &lt;h5&gt;Your Tasks&lt;/h5&gt;
+													<br />
+												
+													    &lt;div class=&quot;list-group&quot;&gt;
+													<br />
+												
+													        
+													<br />
+												
+													        &lt;p class=&quot;text-muted&quot;&gt;No tasks found. Create one above!&lt;/p&gt;
+													<br />
+												
+													        
+													<br />
+												
+													    &lt;/div&gt;
+													<br />
+												
+													&lt;/body&gt;
+													<br />
+												
+													&lt;/html&gt;
+													
+												
+											</div>
+										</td>
+									</tr>
+								
+									<tr>
+										<td width="20%"
+											class="indent1">URL</td>
+										<td width="80%"><a href="http://127.0.0.1:5000/dashboard">http://127.0.0.1:5000/dashboard</a></td>
+									</tr>
+									
+										<tr>
+											<td width="20%"
+												class="indent2">Node Name</td>
+											<td width="80%">http://127.0.0.1:5000/dashboard</td>
+										</tr>
+									
+									<tr>
+										<td width="20%"
+											class="indent2">Method</td>
+										<td width="80%">GET</td>
+									</tr>
+									<tr>
+										<td width="20%"
+											class="indent2">Parameter</td>
+										<td width="80%">session</td>
+									</tr>
+									<tr>
+										<td width="20%"
+											class="indent2">Attack</td>
+										<td width="80%"></td>
+									</tr>
+									<tr>
+										<td width="20%"
+											class="indent2">Evidence</td>
+										<td width="80%">session</td>
+									</tr>
+									<tr>
+										<td width="20%"
+											class="indent2">Other Info</td>
+										<td width="80%">
+												<div>cookie:session</div>
+												
+											</td>
+									</tr>
+									<tr>
+										<td width="20%" class="indent2">
+											<div id="alert-5">
+												<a
+													onclick="showHide(&#39;alert-5&#39;);"
+													href="#5">Show / hide Request and Response</a>
+											</div>
+										</td>
+										<td width="80%"></td>
+									</tr>
+									<tr>
+										<td width="20%" class="indent2">Request Header
+											- size: 270 bytes.
+										</td>
+										<td width="80%">
+											<div
+												id="alert-5reqh"
+												style="display: none;">
+												
+													GET http://127.0.0.1:5000/dashboard HTTP/1.1
+													<br />
+												
+													host: 127.0.0.1:5000
+													<br />
+												
+													user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36
+													<br />
+												
+													pragma: no-cache
+													<br />
+												
+													cache-control: no-cache
+													<br />
+												
+													referer: http://127.0.0.1:5000
+													<br />
+												
+													
+													
+												
+											</div>
+										</td>
+									</tr>
+									<tr>
+										<td width="20%" class="indent2">Request Body
+											- size: 0 bytes.
+										</td>
+										<td width="80%">
+											<div
+												id="alert-5reqb"
+												style="display: none;">
+												
+											</div>
+										</td>
+									</tr>
+									<tr>
+										<td width="20%" class="indent2">Response Header
+											- size: 762 bytes.
+										</td>
+										<td width="80%">
+											<div
+												id="alert-5resph"
+												style="display: none;">
+												
+													HTTP/1.1 200 OK
+													<br />
+												
+													Server: Werkzeug/3.1.8 Python/3.13.7
+													<br />
+												
+													Date: Sun, 27 Sep 2026 11:51:19 GMT
+													<br />
+												
+													Content-Type: text/html; charset=utf-8
+													<br />
+												
+													Content-Length: 2157
+													<br />
+												
+													X-Content-Type-Options: nosniff
+													<br />
+												
+													X-Frame-Options: DENY
+													<br />
+												
+													X-XSS-Protection: 1; mode=block
+													<br />
+												
+													Content-Security-Policy: default-src &#39;self&#39;; script-src &#39;self&#39; https://cdn.jsdelivr.net; style-src &#39;self&#39; https://cdn.jsdelivr.net; img-src &#39;self&#39; data:; font-src &#39;self&#39; https://cdn.jsdelivr.net; connect-src &#39;self&#39;; object-src &#39;none&#39;; base-uri &#39;self&#39;; form-action &#39;self&#39;; frame-ancestors &#39;none&#39;;
+													<br />
+												
+													Server: SecureServer
+													<br />
+												
+													Vary: Cookie
+													<br />
+												
+													Set-Cookie: session=eyJjc3JmX3Rva2VuIjoiMDAxZTUzM2RlYTRiODMwYTZmODk5ZWYwZTY0ODZiNTdmOWExMTdmMSJ9.arkDNw.pqXmJ7d4v6tx-KBBxgqlVhzi1hg; HttpOnly; Path=/; SameSite=Lax
+													<br />
+												
+													Connection: close
+													<br />
+												
+													
+													
+												
+											</div>
+										</td>
+									</tr>
+									<tr>
+										<td width="20%" class="indent2">Response Body
+											- size: 2,157 bytes.
+										</td>
+										<td width="80%">
+											<div
+												id="alert-5respb"
+												style="display: none;">
+												
+													&lt;!DOCTYPE html&gt;
+													<br />
+												
+													&lt;html lang=&quot;en&quot;&gt;
+													<br />
+												
+													&lt;head&gt;
+													<br />
+												
+													    &lt;meta charset=&quot;UTF-8&quot;&gt;
+													<br />
+												
+													    &lt;title&gt;SecureTask - Dashboard&lt;/title&gt;
+													<br />
+												
+													&lt;/head&gt;
+													<br />
+												
+													&lt;body class=&quot;container py-4&quot;&gt;
+													<br />
+												
+													    &lt;div class=&quot;d-flex justify-content-between align-items-center mb-4&quot;&gt;
+													<br />
+												
+													        &lt;h2&gt;Task Dashboard&lt;/h2&gt;
+													<br />
+												
+													        &lt;a href=&quot;/profile&quot; class=&quot;btn btn-outline-secondary&quot;&gt;My Profile&lt;/a&gt;
+													<br />
+												
+													    &lt;/div&gt;
+													<br />
+												
+													    &lt;!-- Search &amp; Filter Bar --&gt;
+													<br />
+												
+													    &lt;form method=&quot;GET&quot; action=&quot;/dashboard&quot; class=&quot;row g-2 mb-4&quot;&gt;
+													<br />
+												
+													        &lt;div class=&quot;col-md-7&quot;&gt;
+													<br />
+												
+													            &lt;input type=&quot;text&quot; name=&quot;q&quot; class=&quot;form-control&quot; placeholder=&quot;Search tasks by title...&quot; value=&quot;&quot;&gt;
+													<br />
+												
+													        &lt;/div&gt;
+													<br />
+												
+													        &lt;div class=&quot;col-md-3&quot;&gt;
+													<br />
+												
+													            &lt;select name=&quot;category&quot; class=&quot;form-select&quot;&gt;
+													<br />
+												
+													                &lt;option value=&quot;&quot;&gt;All Categories&lt;/option&gt;
+													<br />
+												
+													                
+													<br />
+												
+													            &lt;/select&gt;
+													<br />
+												
+													        &lt;/div&gt;
+													<br />
+												
+													        &lt;div class=&quot;col-md-2&quot;&gt;
+													<br />
+												
+													            &lt;button type=&quot;submit&quot; class=&quot;btn btn-primary w-100&quot;&gt;Filter&lt;/button&gt;
+													<br />
+												
+													        &lt;/div&gt;
+													<br />
+												
+													    &lt;/form&gt;
+													<br />
+												
+													    &lt;!-- VULNERABILITY: Reflected XSS (unescaped search parameter) --&gt;
+													<br />
+												
+													    
+													<br />
+												
+													    &lt;!-- Create Task Card --&gt;
+													<br />
+												
+													    &lt;div class=&quot;card p-3 mb-4 shadow-sm&quot;&gt;
+													<br />
+												
+													        &lt;h5&gt;Add New Task&lt;/h5&gt;
+													<br />
+												
+													        &lt;form method=&quot;POST&quot; action=&quot;/task/create&quot;&gt;
+													<br />
+												
+													            &lt;input type=&quot;hidden&quot; name=&quot;csrf_token&quot; value=&quot;IjAwMWU1MzNkZWE0YjgzMGE2Zjg5OWVmMGU2NDg2YjU3ZjlhMTE3ZjEi.arkDNw.yzgY0ttSpyalj08avJ7crcLzdkA&quot;/&gt;
+													<br />
+												
+													            &lt;div class=&quot;mb-2&quot;&gt;
+													<br />
+												
+													                &lt;input type=&quot;text&quot; name=&quot;title&quot; class=&quot;form-control&quot; placeholder=&quot;Task Title&quot; required&gt;
+													<br />
+												
+													            &lt;/div&gt;
+													<br />
+												
+													            &lt;div class=&quot;mb-2&quot;&gt;
+													<br />
+												
+													                &lt;textarea name=&quot;description&quot; class=&quot;form-control&quot; placeholder=&quot;Task Description&quot;&gt;&lt;/textarea&gt;
+													<br />
+												
+													            &lt;/div&gt;
+													<br />
+												
+													            &lt;div class=&quot;mb-3&quot;&gt;
+													<br />
+												
+													                &lt;select name=&quot;category_id&quot; class=&quot;form-select&quot;&gt;
+													<br />
+												
+													                    &lt;option value=&quot;&quot;&gt;Select Category (Optional)&lt;/option&gt;
+													<br />
+												
+													                    
+													<br />
+												
+													                &lt;/select&gt;
+													<br />
+												
+													            &lt;/div&gt;
+													<br />
+												
+													            &lt;button type=&quot;submit&quot; class=&quot;btn btn-success&quot;&gt;Create Task&lt;/button&gt;
+													<br />
+												
+													        &lt;/form&gt;
+													<br />
+												
+													    &lt;/div&gt;
+													<br />
+												
+													    &lt;!-- Task List --&gt;
+													<br />
+												
+													    &lt;h5&gt;Your Tasks&lt;/h5&gt;
+													<br />
+												
+													    &lt;div class=&quot;list-group&quot;&gt;
+													<br />
+												
+													        
+													<br />
+												
+													        &lt;p class=&quot;text-muted&quot;&gt;No tasks found. Create one above!&lt;/p&gt;
+													<br />
+												
+													        
+													<br />
+												
+													    &lt;/div&gt;
+													<br />
+												
+													&lt;/body&gt;
+													<br />
+												
+													&lt;/html&gt;
+													
+												
+											</div>
+										</td>
+									</tr>
+								
+									<tr>
+										<td width="20%"
+											class="indent1">URL</td>
+										<td width="80%"><a href="http://127.0.0.1:5000/dashboard">http://127.0.0.1:5000/dashboard</a></td>
+									</tr>
+									
+										<tr>
+											<td width="20%"
+												class="indent2">Node Name</td>
+											<td width="80%">http://127.0.0.1:5000/dashboard</td>
+										</tr>
+									
+									<tr>
+										<td width="20%"
+											class="indent2">Method</td>
+										<td width="80%">GET</td>
+									</tr>
+									<tr>
+										<td width="20%"
+											class="indent2">Parameter</td>
+										<td width="80%">session</td>
+									</tr>
+									<tr>
+										<td width="20%"
+											class="indent2">Attack</td>
+										<td width="80%"></td>
+									</tr>
+									<tr>
+										<td width="20%"
+											class="indent2">Evidence</td>
+										<td width="80%">session</td>
+									</tr>
+									<tr>
+										<td width="20%"
+											class="indent2">Other Info</td>
+										<td width="80%">
+												<div>cookie:session</div>
+												
+											</td>
+									</tr>
+									<tr>
+										<td width="20%" class="indent2">
+											<div id="alert-6">
+												<a
+													onclick="showHide(&#39;alert-6&#39;);"
+													href="#6">Show / hide Request and Response</a>
+											</div>
+										</td>
+										<td width="80%"></td>
+									</tr>
+									<tr>
+										<td width="20%" class="indent2">Request Header
+											- size: 270 bytes.
+										</td>
+										<td width="80%">
+											<div
+												id="alert-6reqh"
+												style="display: none;">
+												
+													GET http://127.0.0.1:5000/dashboard HTTP/1.1
+													<br />
+												
+													host: 127.0.0.1:5000
+													<br />
+												
+													user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36
+													<br />
+												
+													pragma: no-cache
+													<br />
+												
+													cache-control: no-cache
+													<br />
+												
+													referer: http://127.0.0.1:5000
+													<br />
+												
+													
+													
+												
+											</div>
+										</td>
+									</tr>
+									<tr>
+										<td width="20%" class="indent2">Request Body
+											- size: 0 bytes.
+										</td>
+										<td width="80%">
+											<div
+												id="alert-6reqb"
+												style="display: none;">
+												
+											</div>
+										</td>
+									</tr>
+									<tr>
+										<td width="20%" class="indent2">Response Header
+											- size: 762 bytes.
+										</td>
+										<td width="80%">
+											<div
+												id="alert-6resph"
+												style="display: none;">
+												
+													HTTP/1.1 200 OK
+													<br />
+												
+													Server: Werkzeug/3.1.8 Python/3.13.7
+													<br />
+												
+													Date: Sun, 27 Sep 2026 11:51:19 GMT
+													<br />
+												
+													Content-Type: text/html; charset=utf-8
+													<br />
+												
+													Content-Length: 2157
+													<br />
+												
+													X-Content-Type-Options: nosniff
+													<br />
+												
+													X-Frame-Options: DENY
+													<br />
+												
+													X-XSS-Protection: 1; mode=block
+													<br />
+												
+													Content-Security-Policy: default-src &#39;self&#39;; script-src &#39;self&#39; https://cdn.jsdelivr.net; style-src &#39;self&#39; https://cdn.jsdelivr.net; img-src &#39;self&#39; data:; font-src &#39;self&#39; https://cdn.jsdelivr.net; connect-src &#39;self&#39;; object-src &#39;none&#39;; base-uri &#39;self&#39;; form-action &#39;self&#39;; frame-ancestors &#39;none&#39;;
+													<br />
+												
+													Server: SecureServer
+													<br />
+												
+													Vary: Cookie
+													<br />
+												
+													Set-Cookie: session=eyJjc3JmX3Rva2VuIjoiMDAxZTUzM2RlYTRiODMwYTZmODk5ZWYwZTY0ODZiNTdmOWExMTdmMSJ9.arkDNw.pqXmJ7d4v6tx-KBBxgqlVhzi1hg; HttpOnly; Path=/; SameSite=Lax
+													<br />
+												
+													Connection: close
+													<br />
+												
+													
+													
+												
+											</div>
+										</td>
+									</tr>
+									<tr>
+										<td width="20%" class="indent2">Response Body
+											- size: 2,157 bytes.
+										</td>
+										<td width="80%">
+											<div
+												id="alert-6respb"
+												style="display: none;">
+												
+													&lt;!DOCTYPE html&gt;
+													<br />
+												
+													&lt;html lang=&quot;en&quot;&gt;
+													<br />
+												
+													&lt;head&gt;
+													<br />
+												
+													    &lt;meta charset=&quot;UTF-8&quot;&gt;
+													<br />
+												
+													    &lt;title&gt;SecureTask - Dashboard&lt;/title&gt;
+													<br />
+												
+													&lt;/head&gt;
+													<br />
+												
+													&lt;body class=&quot;container py-4&quot;&gt;
+													<br />
+												
+													    &lt;div class=&quot;d-flex justify-content-between align-items-center mb-4&quot;&gt;
+													<br />
+												
+													        &lt;h2&gt;Task Dashboard&lt;/h2&gt;
+													<br />
+												
+													        &lt;a href=&quot;/profile&quot; class=&quot;btn btn-outline-secondary&quot;&gt;My Profile&lt;/a&gt;
+													<br />
+												
+													    &lt;/div&gt;
+													<br />
+												
+													    &lt;!-- Search &amp; Filter Bar --&gt;
+													<br />
+												
+													    &lt;form method=&quot;GET&quot; action=&quot;/dashboard&quot; class=&quot;row g-2 mb-4&quot;&gt;
+													<br />
+												
+													        &lt;div class=&quot;col-md-7&quot;&gt;
+													<br />
+												
+													            &lt;input type=&quot;text&quot; name=&quot;q&quot; class=&quot;form-control&quot; placeholder=&quot;Search tasks by title...&quot; value=&quot;&quot;&gt;
+													<br />
+												
+													        &lt;/div&gt;
+													<br />
+												
+													        &lt;div class=&quot;col-md-3&quot;&gt;
+													<br />
+												
+													            &lt;select name=&quot;category&quot; class=&quot;form-select&quot;&gt;
+													<br />
+												
+													                &lt;option value=&quot;&quot;&gt;All Categories&lt;/option&gt;
+													<br />
+												
+													                
+													<br />
+												
+													            &lt;/select&gt;
+													<br />
+												
+													        &lt;/div&gt;
+													<br />
+												
+													        &lt;div class=&quot;col-md-2&quot;&gt;
+													<br />
+												
+													            &lt;button type=&quot;submit&quot; class=&quot;btn btn-primary w-100&quot;&gt;Filter&lt;/button&gt;
+													<br />
+												
+													        &lt;/div&gt;
+													<br />
+												
+													    &lt;/form&gt;
+													<br />
+												
+													    &lt;!-- VULNERABILITY: Reflected XSS (unescaped search parameter) --&gt;
+													<br />
+												
+													    
+													<br />
+												
+													    &lt;!-- Create Task Card --&gt;
+													<br />
+												
+													    &lt;div class=&quot;card p-3 mb-4 shadow-sm&quot;&gt;
+													<br />
+												
+													        &lt;h5&gt;Add New Task&lt;/h5&gt;
+													<br />
+												
+													        &lt;form method=&quot;POST&quot; action=&quot;/task/create&quot;&gt;
+													<br />
+												
+													            &lt;input type=&quot;hidden&quot; name=&quot;csrf_token&quot; value=&quot;IjAwMWU1MzNkZWE0YjgzMGE2Zjg5OWVmMGU2NDg2YjU3ZjlhMTE3ZjEi.arkDNw.yzgY0ttSpyalj08avJ7crcLzdkA&quot;/&gt;
+													<br />
+												
+													            &lt;div class=&quot;mb-2&quot;&gt;
+													<br />
+												
+													                &lt;input type=&quot;text&quot; name=&quot;title&quot; class=&quot;form-control&quot; placeholder=&quot;Task Title&quot; required&gt;
+													<br />
+												
+													            &lt;/div&gt;
+													<br />
+												
+													            &lt;div class=&quot;mb-2&quot;&gt;
+													<br />
+												
+													                &lt;textarea name=&quot;description&quot; class=&quot;form-control&quot; placeholder=&quot;Task Description&quot;&gt;&lt;/textarea&gt;
+													<br />
+												
+													            &lt;/div&gt;
+													<br />
+												
+													            &lt;div class=&quot;mb-3&quot;&gt;
+													<br />
+												
+													                &lt;select name=&quot;category_id&quot; class=&quot;form-select&quot;&gt;
+													<br />
+												
+													                    &lt;option value=&quot;&quot;&gt;Select Category (Optional)&lt;/option&gt;
+													<br />
+												
+													                    
+													<br />
+												
+													                &lt;/select&gt;
+													<br />
+												
+													            &lt;/div&gt;
+													<br />
+												
+													            &lt;button type=&quot;submit&quot; class=&quot;btn btn-success&quot;&gt;Create Task&lt;/button&gt;
+													<br />
+												
+													        &lt;/form&gt;
+													<br />
+												
+													    &lt;/div&gt;
+													<br />
+												
+													    &lt;!-- Task List --&gt;
+													<br />
+												
+													    &lt;h5&gt;Your Tasks&lt;/h5&gt;
+													<br />
+												
+													    &lt;div class=&quot;list-group&quot;&gt;
+													<br />
+												
+													        
+													<br />
+												
+													        &lt;p class=&quot;text-muted&quot;&gt;No tasks found. Create one above!&lt;/p&gt;
+													<br />
+												
+													        
+													<br />
+												
+													    &lt;/div&gt;
+													<br />
+												
+													&lt;/body&gt;
+													<br />
+												
+													&lt;/html&gt;
+													
+												
+											</div>
+										</td>
+									</tr>
+								
+								<tr>
+									<td width="20%">Instances</td>
+									
+									
+										<td width="80%">3</td>
+									
+								</tr>
+								<tr>
+									<td width="20%">Solution</td>
+									<td width="80%">
+											<div>This is an informational alert rather than a vulnerability and so there is nothing to fix.</div>
+											
+										</td>
+								</tr>
+								<tr>
+									<td width="20%">Reference</td>
+									<td width="80%">
+											<a href="https://www.zaproxy.org/docs/desktop/addons/authentication-helper/session-mgmt-id/">https://www.zaproxy.org/docs/desktop/addons/authentication-helper/session-mgmt-id/</a>
+											
+										</td>
+								</tr>
+								<tr>
+									<td width="20%">Tags</td>
+									<td width="80%"></td>
+								</tr>
+								<tr>
+									<td width="20%">CWE Id</td>
+									<td width="80%"></td>
+								</tr>
+								<tr>
+									<td width="20%">WASC Id</td>
+									<td width="80%"></td>
+								</tr>
+								<tr>
+									<td width="20%">Plugin Id</td>
+									<td width="80%"><a
+										href="https://www.zaproxy.org/docs/alerts/10112/">10112</a></td>
+								</tr>
+							</table>
+						</div>
+						<div class="spacer"></div>
+					
+						<div class="tableWrapper">
+							<table class="results" cellspacing="0" cellpadding="0">
+								<tr height="24">
+									<th width="20%" class="risk-0"><a
+										id="plugin-10031"></a>
+										<div>Informational</div></th>
+									<th class="risk-0">User Controllable HTML Element Attribute (Potential XSS)</th>
+								</tr>
+								<tr>
+									<td width="20%">Description</td>
+									<td width="80%">
+											<div>This check looks at user-supplied input in query string parameters and POST data to identify where certain HTML attribute values might be controlled. This provides hot-spot detection for XSS (cross-site scripting) that will require further review by a security analyst to determine exploitability.</div>
+											
+										</td>
+								</tr>
+								<TR vAlign="top">
+									<TD colspan="2"></TD>
+								</TR>
+								
+									<tr>
+										<td width="20%"
+											class="indent1">URL</td>
+										<td width="80%"><a href="http://127.0.0.1:5000/dashboard?category&amp;q=ZAP">http://127.0.0.1:5000/dashboard?category&amp;q=ZAP</a></td>
+									</tr>
+									
+										<tr>
+											<td width="20%"
+												class="indent2">Node Name</td>
+											<td width="80%">http://127.0.0.1:5000/dashboard (category,q)</td>
+										</tr>
+									
+									<tr>
+										<td width="20%"
+											class="indent2">Method</td>
+										<td width="80%">GET</td>
+									</tr>
+									<tr>
+										<td width="20%"
+											class="indent2">Parameter</td>
+										<td width="80%">q</td>
+									</tr>
+									<tr>
+										<td width="20%"
+											class="indent2">Attack</td>
+										<td width="80%"></td>
+									</tr>
+									<tr>
+										<td width="20%"
+											class="indent2">Evidence</td>
+										<td width="80%"></td>
+									</tr>
+									<tr>
+										<td width="20%"
+											class="indent2">Other Info</td>
+										<td width="80%">
+												<div>User-controlled HTML attribute values were found. Try injecting special characters to see if XSS might be possible. The page at the following URL:</div>
+												<br />
+											
+												<div>http://127.0.0.1:5000/dashboard?category&amp;q=ZAP</div>
+												<br />
+											
+												<div>appears to include user input in:</div>
+												<br />
+											
+												<div>a(n) [input] tag [value] attribute</div>
+												<br />
+											
+												<div>The user input found was:</div>
+												<br />
+											
+												<div>q=ZAP</div>
+												<br />
+											
+												<div>The user-controlled value was:</div>
+												<br />
+											
+												<div>zap</div>
+												
+											</td>
+									</tr>
+									<tr>
+										<td width="20%" class="indent2">
+											<div id="alert-13">
+												<a
+													onclick="showHide(&#39;alert-13&#39;);"
+													href="#13">Show / hide Request and Response</a>
+											</div>
+										</td>
+										<td width="80%"></td>
+									</tr>
+									<tr>
+										<td width="20%" class="indent2">Request Header
+											- size: 424 bytes.
+										</td>
+										<td width="80%">
+											<div
+												id="alert-13reqh"
+												style="display: none;">
+												
+													GET http://127.0.0.1:5000/dashboard?category&amp;q=ZAP HTTP/1.1
+													<br />
+												
+													host: 127.0.0.1:5000
+													<br />
+												
+													user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36
+													<br />
+												
+													pragma: no-cache
+													<br />
+												
+													cache-control: no-cache
+													<br />
+												
+													referer: http://127.0.0.1:5000/dashboard
+													<br />
+												
+													Cookie: session=eyJjc3JmX3Rva2VuIjoiMDAxZTUzM2RlYTRiODMwYTZmODk5ZWYwZTY0ODZiNTdmOWExMTdmMSJ9.arkDNw.pqXmJ7d4v6tx-KBBxgqlVhzi1hg
+													<br />
+												
+													
+													
+												
+											</div>
+										</td>
+									</tr>
+									<tr>
+										<td width="20%" class="indent2">Request Body
+											- size: 0 bytes.
+										</td>
+										<td width="80%">
+											<div
+												id="alert-13reqb"
+												style="display: none;">
+												
+											</div>
+										</td>
+									</tr>
+									<tr>
+										<td width="20%" class="indent2">Response Header
+											- size: 597 bytes.
+										</td>
+										<td width="80%">
+											<div
+												id="alert-13resph"
+												style="display: none;">
+												
+													HTTP/1.1 200 OK
+													<br />
+												
+													Server: Werkzeug/3.1.8 Python/3.13.7
+													<br />
+												
+													Date: Sun, 27 Sep 2026 11:51:19 GMT
+													<br />
+												
+													Content-Type: text/html; charset=utf-8
+													<br />
+												
+													Content-Length: 2259
+													<br />
+												
+													X-Content-Type-Options: nosniff
+													<br />
+												
+													X-Frame-Options: DENY
+													<br />
+												
+													X-XSS-Protection: 1; mode=block
+													<br />
+												
+													Content-Security-Policy: default-src &#39;self&#39;; script-src &#39;self&#39; https://cdn.jsdelivr.net; style-src &#39;self&#39; https://cdn.jsdelivr.net; img-src &#39;self&#39; data:; font-src &#39;self&#39; https://cdn.jsdelivr.net; connect-src &#39;self&#39;; object-src &#39;none&#39;; base-uri &#39;self&#39;; form-action &#39;self&#39;; frame-ancestors &#39;none&#39;;
+													<br />
+												
+													Server: SecureServer
+													<br />
+												
+													Vary: Cookie
+													<br />
+												
+													Connection: close
+													<br />
+												
+													
+													
+												
+											</div>
+										</td>
+									</tr>
+									<tr>
+										<td width="20%" class="indent2">Response Body
+											- size: 2,259 bytes.
+										</td>
+										<td width="80%">
+											<div
+												id="alert-13respb"
+												style="display: none;">
+												
+													&lt;!DOCTYPE html&gt;
+													<br />
+												
+													&lt;html lang=&quot;en&quot;&gt;
+													<br />
+												
+													&lt;head&gt;
+													<br />
+												
+													    &lt;meta charset=&quot;UTF-8&quot;&gt;
+													<br />
+												
+													    &lt;title&gt;SecureTask - Dashboard&lt;/title&gt;
+													<br />
+												
+													&lt;/head&gt;
+													<br />
+												
+													&lt;body class=&quot;container py-4&quot;&gt;
+													<br />
+												
+													    &lt;div class=&quot;d-flex justify-content-between align-items-center mb-4&quot;&gt;
+													<br />
+												
+													        &lt;h2&gt;Task Dashboard&lt;/h2&gt;
+													<br />
+												
+													        &lt;a href=&quot;/profile&quot; class=&quot;btn btn-outline-secondary&quot;&gt;My Profile&lt;/a&gt;
+													<br />
+												
+													    &lt;/div&gt;
+													<br />
+												
+													    &lt;!-- Search &amp; Filter Bar --&gt;
+													<br />
+												
+													    &lt;form method=&quot;GET&quot; action=&quot;/dashboard&quot; class=&quot;row g-2 mb-4&quot;&gt;
+													<br />
+												
+													        &lt;div class=&quot;col-md-7&quot;&gt;
+													<br />
+												
+													            &lt;input type=&quot;text&quot; name=&quot;q&quot; class=&quot;form-control&quot; placeholder=&quot;Search tasks by title...&quot; value=&quot;ZAP&quot;&gt;
+													<br />
+												
+													        &lt;/div&gt;
+													<br />
+												
+													        &lt;div class=&quot;col-md-3&quot;&gt;
+													<br />
+												
+													            &lt;select name=&quot;category&quot; class=&quot;form-select&quot;&gt;
+													<br />
+												
+													                &lt;option value=&quot;&quot;&gt;All Categories&lt;/option&gt;
+													<br />
+												
+													                
+													<br />
+												
+													            &lt;/select&gt;
+													<br />
+												
+													        &lt;/div&gt;
+													<br />
+												
+													        &lt;div class=&quot;col-md-2&quot;&gt;
+													<br />
+												
+													            &lt;button type=&quot;submit&quot; class=&quot;btn btn-primary w-100&quot;&gt;Filter&lt;/button&gt;
+													<br />
+												
+													        &lt;/div&gt;
+													<br />
+												
+													    &lt;/form&gt;
+													<br />
+												
+													    &lt;!-- VULNERABILITY: Reflected XSS (unescaped search parameter) --&gt;
+													<br />
+												
+													    
+													<br />
+												
+													    &lt;div class=&quot;alert alert-secondary&quot;&gt;
+													<br />
+												
+													        Search query: &lt;strong&gt;ZAP&lt;/strong&gt;
+													<br />
+												
+													    &lt;/div&gt;
+													<br />
+												
+													    
+													<br />
+												
+													    &lt;!-- Create Task Card --&gt;
+													<br />
+												
+													    &lt;div class=&quot;card p-3 mb-4 shadow-sm&quot;&gt;
+													<br />
+												
+													        &lt;h5&gt;Add New Task&lt;/h5&gt;
+													<br />
+												
+													        &lt;form method=&quot;POST&quot; action=&quot;/task/create&quot;&gt;
+													<br />
+												
+													            &lt;input type=&quot;hidden&quot; name=&quot;csrf_token&quot; value=&quot;IjAwMWU1MzNkZWE0YjgzMGE2Zjg5OWVmMGU2NDg2YjU3ZjlhMTE3ZjEi.arkDNw.yzgY0ttSpyalj08avJ7crcLzdkA&quot;/&gt;
+													<br />
+												
+													            &lt;div class=&quot;mb-2&quot;&gt;
+													<br />
+												
+													                &lt;input type=&quot;text&quot; name=&quot;title&quot; class=&quot;form-control&quot; placeholder=&quot;Task Title&quot; required&gt;
+													<br />
+												
+													            &lt;/div&gt;
+													<br />
+												
+													            &lt;div class=&quot;mb-2&quot;&gt;
+													<br />
+												
+													                &lt;textarea name=&quot;description&quot; class=&quot;form-control&quot; placeholder=&quot;Task Description&quot;&gt;&lt;/textarea&gt;
+													<br />
+												
+													            &lt;/div&gt;
+													<br />
+												
+													            &lt;div class=&quot;mb-3&quot;&gt;
+													<br />
+												
+													                &lt;select name=&quot;category_id&quot; class=&quot;form-select&quot;&gt;
+													<br />
+												
+													                    &lt;option value=&quot;&quot;&gt;Select Category (Optional)&lt;/option&gt;
+													<br />
+												
+													                    
+													<br />
+												
+													                &lt;/select&gt;
+													<br />
+												
+													            &lt;/div&gt;
+													<br />
+												
+													            &lt;button type=&quot;submit&quot; class=&quot;btn btn-success&quot;&gt;Create Task&lt;/button&gt;
+													<br />
+												
+													        &lt;/form&gt;
+													<br />
+												
+													    &lt;/div&gt;
+													<br />
+												
+													    &lt;!-- Task List --&gt;
+													<br />
+												
+													    &lt;h5&gt;Your Tasks&lt;/h5&gt;
+													<br />
+												
+													    &lt;div class=&quot;list-group&quot;&gt;
+													<br />
+												
+													        
+													<br />
+												
+													        &lt;p class=&quot;text-muted&quot;&gt;No tasks found. Create one above!&lt;/p&gt;
+													<br />
+												
+													        
+													<br />
+												
+													    &lt;/div&gt;
+													<br />
+												
+													&lt;/body&gt;
+													<br />
+												
+													&lt;/html&gt;
+													
+												
+											</div>
+										</td>
+									</tr>
+								
+								<tr>
+									<td width="20%">Instances</td>
+									
+									
+										<td width="80%">1</td>
+									
+								</tr>
+								<tr>
+									<td width="20%">Solution</td>
+									<td width="80%">
+											<div>Validate all input and sanitize output it before writing to any HTML attributes.</div>
+											
+										</td>
+								</tr>
+								<tr>
+									<td width="20%">Reference</td>
+									<td width="80%">
+											<a href="https://cheatsheetseries.owasp.org/cheatsheets/Input_Validation_Cheat_Sheet.html">https://cheatsheetseries.owasp.org/cheatsheets/Input_Validation_Cheat_Sheet.html</a>
+											
+										</td>
+								</tr>
+								<tr>
+									<td width="20%">Tags</td>
+									<td width="80%">
+
+											
+												<a href="https://owasp.org/Top10/2025/A05_2025-Injection/">OWASP_2025_A05</a>
+											
+											
+											<br />
+										
+
+											
+												<a href="https://owasp.org/www-project-top-ten/2017/A1_2017-Injection.html">OWASP_2017_A01</a>
+											
+											
+											<br />
+										
+
+											
+												<a href="https://owasp.org/Top10/2021/A03_2021-Injection/">OWASP_2021_A03</a>
+											
+											
+											<br />
+										
+
+											
+												<a href="https://cwe.mitre.org/data/definitions/20.html">CWE-20</a>
+											
+											
+											<br />
+										
+
+											
+											
+												POLICY_PENTEST
+											=
+											
+											
+											
+										</td>
+								</tr>
+								<tr>
+									<td width="20%">CWE Id</td>
+									<td width="80%"><a
+										href="https://cwe.mitre.org/data/definitions/20.html">20</a></td>
+								</tr>
+								<tr>
+									<td width="20%">WASC Id</td>
+									<td width="80%">20</td>
+								</tr>
+								<tr>
+									<td width="20%">Plugin Id</td>
+									<td width="80%"><a
+										href="https://www.zaproxy.org/docs/alerts/10031/">10031</a></td>
+								</tr>
+							</table>
+						</div>
+						<div class="spacer"></div>
+					
+				
+
+				<footer>
+					Report by 
+					<a href="https://www.zaproxy.org/" target="_blank">ZAP</a>
+					
+				</footer>
+
+			</div>
+		</div>
+	</section>
+
+</body>
+</html>

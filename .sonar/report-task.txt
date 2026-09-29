@@ -1,0 +1,6 @@
+projectKey=securetask-project
+serverUrl=http://localhost:9000
+serverVersion=26.9.0.129388
+dashboardUrl=http://localhost:9000/dashboard?id=securetask-project
+ceTaskId=9bb458d6-368b-482e-b2dd-da0c7084e82d
+ceTaskUrl=http://localhost:9000/api/ce/task?id=9bb458d6-368b-482e-b2dd-da0c7084e82d

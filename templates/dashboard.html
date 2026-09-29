@@ -1,50 +1,40 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>SecureTask - Dashboard</title>
-</head>
-<body class="container py-4">
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <h2>Task Dashboard</h2>
-        <a href="/profile" class="btn btn-outline-secondary">My Profile</a>
+{% extends "base.html" %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2>Task Dashboard</h2>
+    <a href="/profile" class="btn btn-outline-secondary">My Profile</a>
+</div>
+
+<!-- Search & Filter Bar -->
+<form method="GET" action="/dashboard" class="row g-2 mb-4">
+    <div class="col-md-7">
+        <input type="text" name="q" class="form-control" placeholder="Search tasks by title...">
     </div>
-
-    <!-- Search & Filter Bar -->
-    <form method="GET" action="/dashboard" class="row g-2 mb-4">
-        <div class="col-md-7">
-            <input type="text" name="q" class="form-control" placeholder="Search tasks by title..." value="{{ search }}">
-        </div>
-        <div class="col-md-3">
-            <select name="category" class="form-select">
-                <option value="">All Categories</option>
-                {% for cat in categories %}
-                <option value="{{ cat.id }}">{{ cat.name }}</option>
-                {% endfor %}
-            </select>
-        </div>
-        <div class="col-md-2">
-            <button type="submit" class="btn btn-primary w-100">Filter</button>
-        </div>
-    </form>
-
-    <!-- VULNERABILITY: Reflected XSS (unescaped search parameter) -->
-    {% if search %}
-    <div class="alert alert-secondary">
-        Search query: <strong>{{ search }}</strong>
+    <div class="col-md-3">
+        <select name="category" class="form-select">
+            <option value="">All Categories</option>
+            {% for cat in categories %}
+            <option value="{{ cat.id }}">{{ cat.name }}</option>
+            {% endfor %}
+        </select>
     </div>
-    {% endif %}
+    <div class="col-md-2">
+        <button type="submit" class="btn btn-primary w-100">Filter</button>
+    </div>
+</form>
 
-    <!-- Create Task Card -->
-    <div class="card p-3 mb-4 shadow-sm">
-        <h5>Add New Task</h5>
+<!-- Add New Task Form -->
+<div class="card mb-4">
+    <div class="card-body">
+        <h5 class="card-title">Add New Task</h5>
         <form method="POST" action="/task/create">
-            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
-            <div class="mb-2">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+            <div class="mb-3">
                 <input type="text" name="title" class="form-control" placeholder="Task Title" required>
             </div>
-            <div class="mb-2">
-                <textarea name="description" class="form-control" placeholder="Task Description"></textarea>
+            <div class="mb-3">
+                <textarea name="description" class="form-control" placeholder="Task Description" rows="2"></textarea>
             </div>
             <div class="mb-3">
                 <select name="category_id" class="form-select">
@@ -57,28 +47,25 @@
             <button type="submit" class="btn btn-success">Create Task</button>
         </form>
     </div>
+</div>
 
-    <!-- Task List -->
-    <h5>Your Tasks</h5>
-    <div class="list-group">
-        {% for task in tasks %}
-        <div class="list-group-item d-flex justify-content-between align-items-center">
-            <div>
-                <!-- VULNERABILITY: Stored XSS (rendering raw unescaped input) -->
-                <h6 class="mb-1">{{ task.title }}</h6>
-                <p class="mb-1 text-muted">{{ task.description }}</p>
-                <span class="badge bg-info text-dark">{{ task.status }}</span>
-                {% if task.category %}
-                <span class="badge bg-secondary">{{ task.category.name }}</span>
-                {% endif %}
-            </div>
-            <form action="/task/delete/{{ task.id }}" method="POST" class="m-0">
-                <button type="submit" class="btn btn-sm btn-outline-danger">Delete</button>
-            </form>
+<!-- Task List -->
+<h4 class="mb-3">Your Tasks</h4>
+{% if tasks %}
+<div class="list-group">
+    {% for task in tasks %}
+    <div class="list-group-item d-flex justify-content-between align-items-center">
+        <div>
+            <h5 class="mb-1">{{ task.title }}</h5>
+            <p class="mb-1 text-muted">{{ task.description }}</p>
         </div>
-        {% else %}
-        <p class="text-muted">No tasks found. Create one above!</p>
-        {% endfor %}
+        {% if task.category %}
+        <span class="badge bg-info text-dark">{{ task.category.name }}</span>
+        {% endif %}
     </div>
-</body>
-</html>
+    {% endfor %}
+</div>
+{% else %}
+<p class="text-muted">No tasks found. Create one above!</p>
+{% endif %}
+{% endblock %}
