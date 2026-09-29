@@ -37,8 +37,10 @@ db.init_app(app)
 jwt = JWTManager(app)
 
 @app.route('/')
-def home():
-    return redirect(url_for('dashboard'))
+def index():
+    if 'user_id' in session:
+        return redirect(url_for('dashboard'))
+    return redirect(url_for('login'))
 
 # Updated /register to use bcrypt
 @app.route('/register', methods=['POST'])
@@ -108,9 +110,12 @@ def logout():
 
 @app.route('/dashboard', methods=['GET'])
 def dashboard():
+    if 'user_id' not in session:
+        return redirect(url_for('login'))
+
     search_query = request.args.get('q', '').strip()
     category_id = request.args.get('category', '').strip()
-    
+
     try:
         if search_query:
             escaped_query = search_query.replace('%', r'\%').replace('_', r'\_')
