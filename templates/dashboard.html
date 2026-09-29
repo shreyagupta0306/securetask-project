@@ -8,6 +8,13 @@
     </span>
 </div>
 
+{% if session.get('access_token') %}
+<div class="alert alert-dark shadow-sm mb-4" role="alert">
+    <strong>Your JWT Access Token:</strong>
+    <code class="text-info style-break-all d-block mt-1">{{ session['access_token'] }}</code>
+</div>
+{% endif %}
+
 <!-- Search & Filter Bar -->
 <form method="GET" action="/dashboard" class="row g-2 mb-4">
     <div class="col-md-7">
@@ -69,6 +76,18 @@
                     <h5 class="card-title fw-semibold mb-1">{{ task.title }}</h5>
                     <p class="card-text text-muted mb-0 small">{{ task.description or 'No description provided.' }}</p>
                 </div>
+                <div class="mt-2 d-flex gap-2">
+    <form action="{{ url_for('update_task', task_id=task.id) }}" method="POST" class="d-inline-flex gap-1">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+        <input type="text" name="title" value="{{ task.title }}" class="form-control form-control-sm" style="width: 110px;" required>
+        <input type="text" name="description" value="{{ task.description or '' }}" class="form-control form-control-sm" style="width: 140px;" placeholder="Desc">
+        <button type="submit" class="btn btn-primary btn-sm">Update</button>
+    </form>
+    <form action="{{ url_for('delete_task', task_id=task.id) }}" method="POST" class="d-inline">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+        <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Delete task?');">Delete</button>
+    </form>
+</div>
                 {% if task.category %}
                 <span class="badge bg-primary-subtle text-primary border border-primary-subtle px-3 py-2 rounded-pill">
                     {{ task.category.name }}

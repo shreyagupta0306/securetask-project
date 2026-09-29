@@ -12,6 +12,9 @@ from flask_wtf import FlaskForm
 from flask_talisman import Talisman
 
 app = Flask(__name__)
+app.config['WTF_CSRF_ENABLED'] = False
+app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'your-fallback-secret-key')
+csrf = CSRFProtect(app)
 
 Talisman(app, content_security_policy=None, force_https=False)
 
@@ -44,63 +47,50 @@ def index():
 
 # Updated /register to use bcrypt
 @app.route('/register', methods=['POST'])
+@csrf.exempt
 def register():
-    data = request.get_json() or request.form
+    # ...
+    data = request.get_json()
     username = data.get('username')
     password = data.get('password')
 
-    if not username or not password:
-        return jsonify({"message": "Username and password required"}), 400
+    # Hash password using the imported bcrypt package
+    hashed_pw = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
 
-    if User.query.filter_by(username=username).first():
-        return jsonify({"message": "User already exists"}), 400
-
-    # Hash using bcrypt so /login can verify it
-    salt = bcrypt.gensalt()
-    hashed_password = bcrypt.hashpw(password.encode('utf-8'), salt).decode('utf-8')
-
-    new_user = User(username=username, password_hash=hashed_password)
+    # Save user to DB
+    new_user = User(username=username, password_hash=hashed_pw)
     db.session.add(new_user)
     db.session.commit()
+
     return jsonify({"message": "User registered successfully"}), 201
 
 # Updated /login to store session['user_id']
 @app.route('/login', methods=['GET', 'POST'])
+@csrf.exempt
 def login():
     if request.method == 'GET':
         return render_template('login.html')
 
-    data = request.get_json(silent=True) or request.form
-    username = data.get('username')
-    password = data.get('password')
-
-    if not username or not password:
-        if request.form:
-            return render_template('login.html', error="Username and password required")
-        return jsonify({"message": "Username and password required"}), 400
+    # Handle form submission or JSON
+    if request.is_json:
+        data = request.get_json()
+        username = data.get('username')
+        password = data.get('password')
+    else:
+        username = request.form.get('username')
+        password = request.form.get('password')
 
     user = User.query.filter_by(username=username).first()
 
-    if user:
-        try:
-            pwd_bytes = password.encode('utf-8')
-            stored_hash = user.password_hash.encode('utf-8') if isinstance(user.password_hash, str) else user.password_hash
+    if user and bcrypt.checkpw(password.encode('utf-8'), user.password_hash.encode('utf-8')):
+        # THIS IS THE CRITICAL LINE: Save user ID to session
+        session['user_id'] = user.id
+        
+        if request.is_json:
+            return jsonify({"message": "Login successful"}), 200
+        return redirect('/dashboard')
 
-            if bcrypt.checkpw(pwd_bytes, stored_hash):
-                session['user_id'] = user.id
-                access_token = create_access_token(identity=user.username)
-
-                if request.form:
-                    return redirect(url_for('dashboard'))
-
-                return jsonify(access_token=access_token), 200
-        except Exception as e:
-            app.logger.error(f"Password check failed: {e}")
-
-    if request.form:
-        return render_template('login.html', error="Invalid credentials")
-
-    return jsonify({"message": "Invalid credentials"}), 401
+    return render_template('login.html', error="Invalid credentials")
 
 # Updated /logout route
 @app.route('/logout')
@@ -113,21 +103,30 @@ def dashboard():
     if 'user_id' not in session:
         return redirect(url_for('login'))
 
+    user_id = session['user_id']
     search_query = request.args.get('q', '').strip()
     category_id = request.args.get('category', '').strip()
 
     try:
+        # Base query restricted ONLY to the logged-in user
+        query = Task.query.filter_by(user_id=user_id)
+
+        # Apply search filter if provided
         if search_query:
             escaped_query = search_query.replace('%', r'\%').replace('_', r'\_')
-            tasks = Task.query.filter(Task.title.ilike(f"%{escaped_query}%")).all()
-        else:
-            tasks = Task.query.all()
+            query = query.filter(Task.title.ilike(f"%{escaped_query}%"))
 
+        # Apply category filter if provided
+        if category_id:
+            query = query.filter_by(category_id=category_id)
+
+        tasks = query.all()
         categories = Category.query.all()
+
         return render_template(
-            'dashboard.html', 
-            tasks=tasks, 
-            categories=categories, 
+            'dashboard.html',
+            tasks=tasks,
+            categories=categories,
             search=search_query
         )
     except Exception as e:
@@ -153,41 +152,65 @@ def create_task():
     return redirect(url_for('dashboard'))
 
 @app.route('/task/update/<int:task_id>', methods=['POST'])
-@jwt_required()
 def update_task(task_id):
-    current_user_identity = get_jwt_identity()
-    user = User.query.filter_by(username=current_user_identity).first()
+    user_id = session.get('user_id')
     
-    task = Task.query.filter_by(id=task_id, user_id=user.id).first_or_404()
-    task.title = request.form.get('title')
-    task.description = request.form.get('description')
+    if not user_id:
+        try:
+            from flask_jwt_extended import verify_jwt_in_request
+            verify_jwt_in_request()
+            current_user_identity = get_jwt_identity()
+            user = User.query.filter_by(username=current_user_identity).first()
+            if user:
+                user_id = user.id
+        except Exception:
+            pass
+
+    if not user_id:
+        return jsonify({"message": "Unauthorized"}), 401
+
+    task = Task.query.filter_by(id=task_id, user_id=user_id).first_or_404()
+    task.title = request.form.get('title', task.title)
+    task.description = request.form.get('description', task.description)
     task.status = request.form.get('status', task.status)
-    task.category_id = request.form.get('category_id')
+    
+    category_id = request.form.get('category_id')
+    if category_id:
+        task.category_id = int(category_id)
     
     db.session.commit()
     return redirect(url_for('dashboard'))
 
 @app.route('/task/delete/<int:task_id>', methods=['POST'])
-@jwt_required()
 def delete_task(task_id):
-    current_user_identity = get_jwt_identity()
-    user = User.query.filter_by(username=current_user_identity).first()
+    user_id = session.get('user_id')
     
-    task = Task.query.filter_by(id=task_id, user_id=user.id).first_or_404()
+    if not user_id:
+        try:
+            from flask_jwt_extended import verify_jwt_in_request
+            verify_jwt_in_request()
+            current_user_identity = get_jwt_identity()
+            user = User.query.filter_by(username=current_user_identity).first()
+            if user:
+                user_id = user.id
+        except Exception:
+            pass
+
+    if not user_id:
+        return jsonify({"message": "Unauthorized"}), 401
+
+    task = Task.query.filter_by(id=task_id, user_id=user_id).first_or_404()
     db.session.delete(task)
     db.session.commit()
     return redirect(url_for('dashboard'))
 
 @app.route('/profile', methods=['GET', 'POST'])
 def profile():
-    user = User.query.first()
+    user_id = session.get('user_id')
+    if not user_id:
+        return redirect(url_for('login'))
 
-    if not user:
-        salt = bcrypt.gensalt()
-        valid_hash = bcrypt.hashpw('password123'.encode('utf-8'), salt).decode('utf-8')
-        user = User(username='default_user', password_hash=valid_hash)
-        db.session.add(user)
-        db.session.commit()
+    user = User.query.get(user_id)
 
     if request.method == 'POST':
         user.username = request.form.get('username')
